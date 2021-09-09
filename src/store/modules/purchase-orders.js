@@ -2,24 +2,24 @@ import { GET_PURCHASE_ORDERS } from './mutation-types';
 
 const data = {
   purchaseOrders: [
-    {
-      id: 10,
-      requestDate: '4/5/84',
-      requestor: 'ashley',
-      vendor: 'lauren',
-    },
-    {
-      id: 20,
-      requestDate: '5/19/87',
-      requestor: 'amanda',
-      vendor: 'nicole',
-    },
-    {
-      id: 30,
-      requestDate: '4/17/88',
-      requestor: 'lance',
-      vendor: 'jonathan',
-    },
+    // {
+    //   id: 10,
+    //   requestDate: '4/5/84',
+    //   requestor: 'ashley',
+    //   vendor: 'lauren',
+    // },
+    // {
+    //   id: 20,
+    //   requestDate: '5/19/87',
+    //   requestor: 'amanda',
+    //   vendor: 'nicole',
+    // },
+    // {
+    //   id: 30,
+    //   requestDate: '4/17/88',
+    //   requestor: 'lance',
+    //   vendor: 'jonathan',
+    // },
   ],
 };
 export default {
