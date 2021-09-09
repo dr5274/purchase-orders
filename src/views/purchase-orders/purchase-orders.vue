@@ -1,7 +1,6 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
-import ListHeader from '@/components/list-header.vue';
-import PurchaseOrderList from './purchase-order-list.vue';
+import PurchaseOrderList from '../../components/purchase-order-list.vue';
 
 export default {
   name: 'PurchaseOrders',
@@ -12,7 +11,6 @@ export default {
     };
   },
   components: {
-    ListHeader,
     PurchaseOrderList,
   },
   created() {
@@ -32,13 +30,12 @@ export default {
 
 <template>
   <div class="content-container">
-    <ListHeader
-      :title="title"
-      @refresh="getPurchaseOrders"
-      :routePath="routePath"
-    ></ListHeader>
+    <!-- <div class="content-title-group">
+      <h2 class="title">{{ title }}</h2>
+    </div> -->
+
     <div class="columns is-multiline is-variable">
-      <div class="column is-8" v-if="purchaseOrders">
+      <div class="column is-10" v-if="purchaseOrders">
         <PurchaseOrderList :purchaseOrders="purchaseOrders"></PurchaseOrderList>
       </div>
     </div>

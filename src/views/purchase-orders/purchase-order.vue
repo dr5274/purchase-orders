@@ -1,13 +1,17 @@
 <script>
+import PurchaseOrderForm from '../../components/purchase-order-form.vue';
+
 export default {
   name: "PurchaseOrder",
   data() {
     return {
       routePath: "/purchase-order",
-      title: "Purchase Order",
+      title: "New Purchase Order",
     };
   },
-  components: {},
+  components: {
+    PurchaseOrderForm,
+  },
   created() {},
   computed: {},
   methods: {},
@@ -16,105 +20,14 @@ export default {
 
 <template>
   <div class="content-container">
-    <section class="form">
-      <div class="columns">
-        <div class="column is-one-quarter">
-          <div class="field">
-            <label class="label">Request Date</label>
-            <div class="control">
-              <input class="input" type="date" required />
-            </div>
-          </div>
-        </div>
+    <!-- <div class="content-title-group">
+      <h2 class="title">{{ title }}</h2>
+    </div> -->
+
+    <div class="columns is-multiline is-variable">
+      <div class="column is-10">
+        <PurchaseOrderForm></PurchaseOrderForm>
       </div>
-
-      <div class="columns">
-        <div class="column">
-          <div class="field">
-            <label class="label">Requestor</label>
-            <div class="control">
-              <input class="input" type="text" required />
-            </div>
-          </div>
-        </div>
-        <div class="column">
-          <div class="field">
-            <label class="label">Vendor</label>
-            <div class="control">
-              <input class="input" type="text" required />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="columns">
-        <div class="column">
-          <label class="label">Requested Supplies</label>
-          <div class="columns">
-            <div class="column is-half">
-              <input class="input" type="text" />
-            </div>
-            <div class="column is-half">
-              <input class="input" type="text" />
-            </div>
-          </div>
-
-          <div class="columns">
-            <div class="column is-half">
-              <input class="input" type="text" />
-            </div>
-            <div class="column is-half">
-              <input class="input" type="text" />
-            </div>
-          </div>
-
-          <div class="columns">
-            <div class="column is-half">
-              <input class="input" type="text" />
-            </div>
-            <div class="column is-half">
-              <input class="input" type="text" />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="columns">
-        <div class="column is-one-quarter">
-          <div class="field">
-            <label class="label">Quote Number</label>
-            <div class="control">
-              <input class="input" type="text" required />
-            </div>
-          </div>
-        </div>
-        <div class="column is-one-quarter">
-          <div class="field">
-            <label class="label">Sub-Total</label>
-            <div class="control">
-              <input class="input" type="text" required />
-            </div>
-          </div>
-        </div>
-        <div class="column is-one-quarter">
-          <div class="field">
-            <label class="label">Date Needed</label>
-            <div class="control">
-              <input class="input" type="date" required />
-            </div>
-          </div>
-        </div>
-        <div class="column is-one-quarter">
-          <div class="field">
-            <label class="label">Billable SC</label>
-            <div class="control">
-              <input class="input" type="text" />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <button class="button is-primary is-rounded" type="submit">Submit</button>
-    </section>
+    </div>
   </div>
 </template>
