@@ -30,13 +30,9 @@ export default {
 
 <template>
   <div class="content-container">
-    <!-- <div class="content-title-group">
-      <h2 class="title">{{ title }}</h2>
-    </div> -->
-
     <div class="columns is-multiline is-variable">
       <div class="column is-10" v-if="purchaseOrders">
-        <PurchaseOrderList :purchaseOrders="purchaseOrders"></PurchaseOrderList>
+        <PurchaseOrderList :purchaseOrders="purchaseOrders" />
       </div>
     </div>
   </div>

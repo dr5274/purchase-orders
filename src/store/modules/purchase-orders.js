@@ -1,29 +1,13 @@
-import { GET_PURCHASE_ORDERS } from './mutation-types';
+import { GET_PURCHASE_ORDERS } from "./mutation-types";
 
-const data = {
-  purchaseOrders: [
-    // {
-    //   id: 10,
-    //   requestDate: '4/5/84',
-    //   requestor: 'ashley',
-    //   vendor: 'lauren',
-    // },
-    // {
-    //   id: 20,
-    //   requestDate: '5/19/87',
-    //   requestor: 'amanda',
-    //   vendor: 'nicole',
-    // },
-    // {
-    //   id: 30,
-    //   requestDate: '4/17/88',
-    //   requestor: 'lance',
-    //   vendor: 'jonathan',
-    // },
-  ],
+const API = "http://localhost:7071/api/purchaseOrders";
+const HEADERS = {
+  Accept: "application/json",
+  "Content-Type": "application/json",
 };
+
 export default {
-  strict: process.env.NODE_ENV !== 'production',
+  strict: process.env.NODE_ENV !== "production",
   namespaced: true,
   state: {
     purchaseOrders: [],
@@ -36,8 +20,35 @@ export default {
   actions: {
     async getPurchaseOrdersAction({ commit }) {
       try {
-        commit(GET_PURCHASE_ORDERS, data.purchaseOrders);
-        return data.purchaseOrders;
+        await fetch(API + "/", { headers: HEADERS, method: "GET" })
+          .then((res) => {
+            return res.json();
+          })
+          .then((res) => {
+            const data = res == null ? [] : res;
+            commit(GET_PURCHASE_ORDERS, data);
+            return data;
+          });
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
+    async putPurchaseOrderAction(purchaseOrder, { commit }) {
+      try {
+        await fetch(API + "/", {
+          headers: HEADERS,
+          method: "POST",
+          body: JSON.stringify(purchaseOrder),
+        })
+          .then((res) => {
+            return res.json();
+          })
+          .then((res) => {
+            const data = res == null ? [] : res;
+            commit(GET_PURCHASE_ORDERS, data);
+            return data;
+          });
       } catch (error) {
         console.error(error);
       }

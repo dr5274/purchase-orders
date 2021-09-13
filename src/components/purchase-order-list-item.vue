@@ -1,6 +1,6 @@
 <script>
 export default {
-  name: 'OrderSummary',
+  name: 'PurchaseOrderListItem',
   props: {
     requestDate: {
       type: String,

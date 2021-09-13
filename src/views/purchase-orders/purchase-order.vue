@@ -14,19 +14,19 @@ export default {
   },
   created() {},
   computed: {},
-  methods: {},
+  methods: {
+    submitPurchaseOrder() {
+      alert("order submitted");
+    }
+  },
 };
 </script>
 
 <template>
   <div class="content-container">
-    <!-- <div class="content-title-group">
-      <h2 class="title">{{ title }}</h2>
-    </div> -->
-
     <div class="columns is-multiline is-variable">
       <div class="column is-10">
-        <PurchaseOrderForm></PurchaseOrderForm>
+        <PurchaseOrderForm @submitPurchaseOrder="submitPurchaseOrder" />
       </div>
     </div>
   </div>

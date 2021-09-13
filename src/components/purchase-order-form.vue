@@ -1,3 +1,15 @@
+<script>
+export default {
+  name: "PurchaseOrderForm",
+  props: {},
+  methods: {
+    onSubmit() {
+      this.$emit('submitPurchaseOrder');
+    }
+  },
+};
+</script>
+
 <template>
   <section class="form">
     <div class="columns">
@@ -97,6 +109,6 @@
       </div>
     </div>
 
-    <button class="button is-primary is-rounded" type="submit">Submit</button>
+    <button class="button is-primary is-rounded" v-on:click="onSubmit">Submit</button>
   </section>
 </template>

@@ -1,5 +1,5 @@
 <script>
-import OrderSummary from '@/components/order-summary.vue';
+import PurchaseOrderListItem from '@/components/purchase-order-list-item.vue';
 
 export default {
   name: 'PurchaseOrderList',
@@ -9,7 +9,7 @@ export default {
       default: () => [],
     },
   },
-  components: { OrderSummary },
+  components: { PurchaseOrderListItem },
   methods: {
     selectPurchaseOrder(purchaseOrder) {
       console.log(`You tried to select ${purchaseOrder.name}`);
@@ -29,11 +29,7 @@ export default {
         role="presentation"
       >
         <div class="card">
-          <OrderSummary
-            :requestDate="purchaseOrder.requestDate"
-            :requestor="purchaseOrder.requestor"
-            :vendor="purchaseOrder.vendor"
-          />
+          <PurchaseOrderListItem :purchaseOrder="purchaseOrder" />
         </div>
       </li>
     </ul>
