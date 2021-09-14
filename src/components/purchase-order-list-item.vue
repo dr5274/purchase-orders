@@ -2,17 +2,7 @@
 export default {
   name: 'PurchaseOrderListItem',
   props: {
-    requestDate: {
-      type: String,
-      default: () => '',
-    },
-    requestor: {
-      type: String,
-      default: () => '',
-    },
-    vendor: {
-      type: String,
-      default: () => '',
+    purchaseOrder: {
     },
   },
 };
@@ -21,9 +11,9 @@ export default {
 <template>
   <div class="card-content">
     <div class="content">
-      <div class="name">{{ requestDate }}</div>
-      <div class="description">{{ requestor }}</div>
-      <div class="description">{{ vendor }}</div>
+      <div class="name">{{ purchaseOrder.requestDate }}</div>
+      <div class="description">{{ purchaseOrder.requestor }}</div>
+      <div class="description">{{ purchaseOrder.vendor }}</div>
     </div>
   </div>
 </template>
