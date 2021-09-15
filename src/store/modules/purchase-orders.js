@@ -1,51 +1,46 @@
-import { GET_PURCHASE_ORDERS } from "./mutation-types";
+import axios from "axios";
+import moment from "moment";
 
-const API = "http://localhost:7071/api/purchaseOrders";
-const HEADERS = {
-  Accept: "application/json",
-  "Content-Type": "application/json",
-};
+// const API = "http://localhost:7071/api/purchaseOrders";
+// const HEADERS = {
+//   Accept: "application/json",
+//   "Content-Type": "application/json",
+// };
 
 const _defaultData = [
   {
-      "id": 10,
-      "requestDate": "4/5/84",
-      "requestor": "ashley",
-      "vendor": "lauren",
-      "supplies": [
-        "first", "second", "third"
-      ],
-      "quoteNumber": "123",
-      "subTotal": 123.45,
-      "dateNeeded": "10/1/21",
-      "billableSC": ""
+    id: 10,
+    requestDate: "4/5/84",
+    requestor: "ashley",
+    vendor: "lauren",
+    supplies: ["first", "second", "third"],
+    quoteNumber: "123",
+    subTotal: 123.45,
+    dateNeeded: "10/1/21",
+    billableSC: "",
   },
   {
-      "id": 20,
-      "requestDate": "5/19/87",
-      "requestor": "amanda",
-      "vendor": "nicole",
-      "supplies": [
-        "first", "second", "third"
-      ],
-      "quoteNumber": "123",
-      "subTotal": 123.45,
-      "dateNeeded": "10/1/21",
-      "billableSC": ""
+    id: 20,
+    requestDate: "5/19/87",
+    requestor: "amanda",
+    vendor: "nicole",
+    supplies: ["first", "second", "third"],
+    quoteNumber: "123",
+    subTotal: 123.45,
+    dateNeeded: "10/1/21",
+    billableSC: "",
   },
   {
-      "id": 30,
-      "requestDate": "4/17/88",
-      "requestor": "lance",
-      "vendor": "johnathon",
-      "supplies": [
-        "first", "second", "third"
-      ],
-      "quoteNumber": "123",
-      "subTotal": 123.45,
-      "dateNeeded": "10/1/21",
-      "billableSC": ""
-  }
+    id: 30,
+    requestDate: "4/17/88",
+    requestor: "lance",
+    vendor: "johnathon",
+    supplies: ["first", "second", "third"],
+    quoteNumber: "123",
+    subTotal: 123.45,
+    dateNeeded: "10/1/21",
+    billableSC: "",
+  },
 ];
 
 export default {
@@ -55,51 +50,41 @@ export default {
     purchaseOrders: [],
   },
   mutations: {
-    [GET_PURCHASE_ORDERS](state, purchaseOrders) {
+    PURCHASE_ORDERS(state, purchaseOrders) {
       state.purchaseOrders = purchaseOrders;
     },
+    // ADD_PURCHASE_ORDER(state, purchaseOrder) {
+    // }
   },
   actions: {
-    async getPurchaseOrdersAction({ commit }) {
-      try {
-        // await fetch(API + "/", { headers: HEADERS, method: "GET" })
-        //   .then((res) => {
-        //     return res.json();
-        //   })
-        //   .then((res) => {
-        //     const data = res == null ? [] : res;
-        //     commit(GET_PURCHASE_ORDERS, data);
-        //     return data;
-        //   });
-        let data = _defaultData;
-        commit(GET_PURCHASE_ORDERS, data);
-        return data;
-      } catch (error) {
-        console.error(error);
-      }
+    async _getPurchaseOrders({ commit }) {
+      // axios.get('/api/purchaseOrders').then((response) => {
+      //   commit('PURCHASE_ORDERS', response.data)
+      // });
+      let defaultData = _defaultData.map((po) => {
+        po.requestDate = moment(po.requestDate).format("MM/DD/YYYY");
+        po.dateNeeded = moment(po.dateNeeded).format("MM/DD/YYYY");
+        return po;
+      });
+      commit("PURCHASE_ORDERS", _defaultData);
     },
-
-    async putPurchaseOrderAction(purchaseOrder, { commit }) {
-      try {
-        await fetch(API + "/", {
-          headers: HEADERS,
-          method: "POST",
-          body: JSON.stringify(purchaseOrder),
-        })
-          .then((res) => {
-            return res.json();
-          })
-          .then((res) => {
-            const data = res == null ? [] : res;
-            commit(GET_PURCHASE_ORDERS, data);
-            return data;
-          });
-      } catch (error) {
-        console.error(error);
-      }
+    async getPurchaseOrder({ commit }, id) {
+      // axios.get('/api/purchaseOrders/' + id).then((response) => {
+      //   commit('PURCHASE_ORDERS', response.data)
+      // });
+    },
+    async addPurchaseOrder({ commit }, purchaseOrder) {
+      // axios.post('/api/purchaseOrders', purchaseOrder).then((response) => {
+      //   commit('PURCHASE_ORDERS', response.data)
+      // });
     },
   },
   getters: {
     purchaseOrders: (state) => state.purchaseOrders,
+    purchaseOrderById: (state) => (id) => {
+      return state.purchaseOrders.find(
+        (purchaseOrder) => purchaseOrder.id === id
+      );
+    },
   },
 };

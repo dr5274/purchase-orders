@@ -13,7 +13,7 @@ export default new Router({
       redirect: '/purchase-order',
     },
     {
-      path: '/purchase-order',
+      path: '/purchase-order/:id?',
       name: 'purchase-order',
       component: () =>
         import(

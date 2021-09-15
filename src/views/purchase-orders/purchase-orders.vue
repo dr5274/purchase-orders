@@ -1,5 +1,5 @@
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 import PurchaseOrderList from '../../components/purchase-order-list.vue';
 
 export default {
@@ -14,15 +14,16 @@ export default {
     PurchaseOrderList,
   },
   created() {
-    this.getPurchaseOrdersAction();
+    // this.$store.dispatch('getPurchaseOrders');
+    this.getPurchaseOrders();
   },
   computed: {
     ...mapGetters('purchaseOrders', { purchaseOrders: 'purchaseOrders' }),
   },
   methods: {
-    ...mapActions('purchaseOrders', ['getPurchaseOrdersAction']),
+    ...mapActions('purchaseOrders', ['_getPurchaseOrders']),
     getPurchaseOrders() {
-      this.getPurchaseOrdersAction();
+      this._getPurchaseOrders();
     },
   },
 };
@@ -31,7 +32,7 @@ export default {
 <template>
   <div class="content-container">
     <div class="columns is-multiline is-variable">
-      <div class="column is-10" v-if="purchaseOrders">
+      <div class="column is-12" v-if="purchaseOrders">
         <PurchaseOrderList :purchaseOrders="purchaseOrders" />
       </div>
     </div>
