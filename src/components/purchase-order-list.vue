@@ -7,6 +7,21 @@ export default {
       default: () => [],
     },
   },
+  data() {
+    return {
+      search: "",
+      headers: [
+        { text: "Date Requested", value: "requestDateFormatted" },
+        { text: "Requestor", value: "requestor" },
+        { text: "Vendor", value: "vendor" },
+        { text: "Description", value: "description" },
+        { text: "Quote", value: "quoteNumber" },
+        { text: "SubTotal", value: "subTotalFormatted" },
+        { text: "Date Needed", value: "dateNeededFormatted" },
+        { text: "Billable SC", value: "billableSC" },
+      ],
+    };
+  },
   components: {},
   methods: {
     selectPurchaseOrder(purchaseOrder) {
@@ -24,7 +39,25 @@ export default {
 
 <template>
   <div>
-    <table class="table is-fullwidth is-striped is-not-bordered is-hoverable">
+    <v-data-table
+      dense
+      :search="search"
+      :headers="headers"
+      :items="purchaseOrders"
+      item-key="id"
+      :items-per-page="10"
+    >
+      <template v-slot:top>
+        <v-text-field
+          v-model="search"
+          append-icon="mdi-magnify"
+          label="Search"
+          class="mx-4"
+        />
+      </template>
+    </v-data-table>
+
+    <!-- <v-simple-table>
       <thead>
         <tr>
           <td class="has-text-right">Date Requested</td>
@@ -40,13 +73,17 @@ export default {
       </thead>
       <tbody>
         <tr v-for="purchaseOrder in purchaseOrders" :key="purchaseOrder.id">
-          <td class="has-text-right">{{ purchaseOrder.requestDateFormatted }}</td>
+          <td class="has-text-right">
+            {{ purchaseOrder.requestDateFormatted }}
+          </td>
           <td>{{ purchaseOrder.requestor }}</td>
           <td>{{ purchaseOrder.vendor }}</td>
           <td>{{ purchaseOrder.description }}</td>
           <td>{{ purchaseOrder.quoteNumber }}</td>
           <td class="has-text-right">{{ purchaseOrder.subTotalFormatted }}</td>
-          <td class="has-text-right">{{ purchaseOrder.dateNeededFormatted }}</td>
+          <td class="has-text-right">
+            {{ purchaseOrder.dateNeededFormatted }}
+          </td>
           <td>{{ purchaseOrder.billableSC }}</td>
           <td>
             <router-link
@@ -59,6 +96,6 @@ export default {
           </td>
         </tr>
       </tbody>
-    </table>
+    </v-simple-table> -->
   </div>
 </template>
