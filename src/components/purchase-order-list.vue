@@ -2,7 +2,7 @@
 export default {
   name: "PurchaseOrderList",
   props: {
-     purchaseOrders: {
+    purchaseOrders: {
       type: Array,
       default: () => [],
     },
@@ -16,10 +16,9 @@ export default {
 
     formattedDate(date) {
       return this.purchaseOrder.requestDate;
-    }
+    },
   },
-  computed: {
-  }
+  computed: {},
 };
 </script>
 
@@ -36,18 +35,28 @@ export default {
           <td class="has-text-right">Sub-Total</td>
           <td class="has-text-right">Date Needed</td>
           <td>Billable SC</td>
+          <td></td>
         </tr>
       </thead>
       <tbody>
         <tr v-for="purchaseOrder in purchaseOrders" :key="purchaseOrder.id">
-          <td class="has-text-right">{{ purchaseOrder.requestDate }}</td>
+          <td class="has-text-right">{{ purchaseOrder.requestDateFormatted }}</td>
           <td>{{ purchaseOrder.requestor }}</td>
           <td>{{ purchaseOrder.vendor }}</td>
           <td>{{ purchaseOrder.description }}</td>
           <td>{{ purchaseOrder.quoteNumber }}</td>
-          <td class="has-text-right">{{ purchaseOrder.subTotal }}</td>
-          <td class="has-text-right">{{ purchaseOrder.dateNeeded }}</td>
+          <td class="has-text-right">{{ purchaseOrder.subTotalFormatted }}</td>
+          <td class="has-text-right">{{ purchaseOrder.dateNeededFormatted }}</td>
           <td>{{ purchaseOrder.billableSC }}</td>
+          <td>
+            <router-link
+              :to="{ name: 'purchase-order', params: { id: purchaseOrder.id } }"
+            >
+              <span class="icon">
+                <i class="far fa-edit"></i>
+              </span>
+            </router-link>
+          </td>
         </tr>
       </tbody>
     </table>

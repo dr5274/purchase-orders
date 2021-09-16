@@ -1,30 +1,20 @@
 <script>
-import { mapGetters, mapActions } from 'vuex';
-import PurchaseOrderList from '../../components/purchase-order-list.vue';
+import { mapGetters } from "vuex";
+import PurchaseOrderList from "../../components/purchase-order-list.vue";
 
 export default {
-  name: 'PurchaseOrders',
+  name: "PurchaseOrders",
   data() {
     return {
-      routePath: '/purchase-orders',
-      title: 'Purchase Orders',
+      routePath: "/purchase-orders",
+      title: "Purchase Orders",
     };
   },
   components: {
     PurchaseOrderList,
   },
-  created() {
-    // this.$store.dispatch('getPurchaseOrders');
-    this.getPurchaseOrders();
-  },
   computed: {
-    ...mapGetters('purchaseOrders', { purchaseOrders: 'purchaseOrders' }),
-  },
-  methods: {
-    ...mapActions('purchaseOrders', ['_getPurchaseOrders']),
-    getPurchaseOrders() {
-      this._getPurchaseOrders();
-    },
+    ...mapGetters("purchaseOrders", { purchaseOrders: "purchaseOrders" }),
   },
 };
 </script>

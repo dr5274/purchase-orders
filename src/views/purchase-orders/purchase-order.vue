@@ -1,5 +1,5 @@
 <script>
-import { mapActions } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import PurchaseOrderForm from "../../components/purchase-order-form.vue";
 
 const defaultPurchaseOrder = {
@@ -7,6 +7,7 @@ const defaultPurchaseOrder = {
   requestor: null,
   vendor: null,
   supplies: [null, null, null, null, null, null],
+  supplied: [false, false, false, false, false, false],
   quoteNumber: null,
   subTotal: null,
   dateNeeded: null,
@@ -18,31 +19,40 @@ export default {
   data() {
     return {
       routePath: "/purchase-order",
-      title: "New Purchase Order",
-      purchaseOrder: null,
+      title: "Purchase Order",
+      purchaseOrder: {},
+      isReviewing: false,
     };
   },
   components: {
     PurchaseOrderForm,
   },
-  created() {
-    let id = this.$route.params.id;
-    if (id) {
-      this.purchaseOrder = this.$store.dispatch("getPurchaseOrder", id);
-    } else {
-      this.purchaseOrder = defaultPurchaseOrder;
-    }
-    console.log(id);
-    this.purchaseOrder = defaultPurchaseOrder;
-  },
-  computed: {},
-  methods: {
-    ...mapActions("purchaseOrders", ["putPurchaseOrdersAction"]),
-    addPurchaseOrder() {
-      // this.putPurchaseOrdersAction();
-      this.$store.dispatch("addPurchaseOrder");
-      this.data.purchaseOrder = defaultPurchaseOrder;
+  watch: {
+    "$route.params.id": function (id) {
+      this.loadPurchaseOrder(id);
     },
+  },
+  created() {
+    this.loadPurchaseOrder(this.$route.params.id);
+  },
+  computed: {
+    ...mapGetters("purchaseOrders", { purchaseOrderById: "purchaseOrderById" }),
+  },
+  methods: {
+    loadPurchaseOrder(id) {
+      let purchaseOrder = this.purchaseOrderById(id);
+      if (purchaseOrder) {
+        this.purchaseOrder = purchaseOrder;
+        this.isReviewing = true;
+      } else {
+        this.purchaseOrder = defaultPurchaseOrder;
+        this.isReviewing = false;
+      }
+    },
+    savePurchaseOrder() {
+      this.$store.dispatch("savePurchaseOrder", this.purchaseOrder);
+    },
+    ...mapActions("purchaseOrders", { savePurchaseOrder: "savePurchaseOrder" })
   },
 };
 </script>
@@ -53,7 +63,8 @@ export default {
       <div class="column is-10">
         <PurchaseOrderForm
           :purchaseOrder="purchaseOrder"
-          @submitPurchaseOrder="addPurchaseOrder"
+          :isReviewing="isReviewing"
+          @savePurchaseOrder="savePurchaseOrder"
         />
       </div>
     </div>

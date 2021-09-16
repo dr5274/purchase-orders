@@ -1,12 +1,18 @@
 <script>
+import SupplyItem from "../components/supply-item.vue";
+
 export default {
   name: "PurchaseOrderForm",
   props: {
     purchaseOrder: {},
+    isReviewing: {},
+  },
+  components: {
+    SupplyItem,
   },
   methods: {
-    onSubmit() {
-      this.$emit("submitPurchaseOrder");
+    onSave() {
+      this.$emit("savePurchaseOrder", this.purchaseOrder);
     },
   },
 };
@@ -64,28 +70,58 @@ export default {
         <label class="label">Requested Supplies</label>
         <div class="columns">
           <div class="column is-half">
-            <input class="input" type="text" />
+            <SupplyItem
+              :purchaseOrder="purchaseOrder"
+              :isReviewing="isReviewing"
+              :supplies="purchaseOrder.supplies[0]"
+              :supplied="purchaseOrder.supplied[0]"
+            />
           </div>
           <div class="column is-half">
-            <input class="input" type="text" />
+            <SupplyItem
+              :purchaseOrder="purchaseOrder"
+              :isReviewing="isReviewing"
+              :supplies="purchaseOrder.supplies[1]"
+              :supplied="purchaseOrder.supplied[1]"
+            />
           </div>
         </div>
 
         <div class="columns">
           <div class="column is-half">
-            <input class="input" type="text" />
+            <SupplyItem
+              :purchaseOrder="purchaseOrder"
+              :isReviewing="isReviewing"
+              :supplies="purchaseOrder.supplies[2]"
+              :supplied="purchaseOrder.supplied[2]"
+            />
           </div>
           <div class="column is-half">
-            <input class="input" type="text" />
+            <SupplyItem
+              :purchaseOrder="purchaseOrder"
+              :isReviewing="isReviewing"
+              :supplies="purchaseOrder.supplies[3]"
+              :supplied="purchaseOrder.supplied[3]"
+            />
           </div>
         </div>
 
         <div class="columns">
           <div class="column is-half">
-            <input class="input" type="text" />
+            <SupplyItem
+              :purchaseOrder="purchaseOrder"
+              :isReviewing="isReviewing"
+              :supplies="purchaseOrder.supplies[4]"
+              :supplied="purchaseOrder.supplied[4]"
+            />
           </div>
           <div class="column is-half">
-            <input class="input" type="text" />
+            <SupplyItem
+              :purchaseOrder="purchaseOrder"
+              :isReviewing="isReviewing"
+              :supplies="purchaseOrder.supplies[5]"
+              :supplied="purchaseOrder.supplied[5]"
+            />
           </div>
         </div>
       </div>
@@ -148,8 +184,8 @@ export default {
       </div>
     </div>
 
-    <button class="button is-primary is-rounded" v-on:click="onSubmit">
-      Submit
+    <button class="button is-primary is-rounded" v-on:click="onSave">
+      Save
     </button>
   </section>
 </template>

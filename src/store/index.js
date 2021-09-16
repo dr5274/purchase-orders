@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import purchaseOrdersModule from './modules/purchase-orders';
+import purchaseOrdersModule from './purchase-orders';
 
 Vue.use(Vuex);
 
