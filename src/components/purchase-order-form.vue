@@ -1,5 +1,6 @@
 <script>
-import SupplyItem from "../components/supply-item.vue";
+// import SupplyItem from "../components/supply-item.vue";
+import DatePicker from "../components/date-picker.vue";
 
 export default {
   name: "PurchaseOrderForm",
@@ -8,7 +9,8 @@ export default {
     isReviewing: {},
   },
   components: {
-    SupplyItem,
+    // SupplyItem,
+    DatePicker,
   },
   methods: {
     onSave() {
@@ -19,7 +21,58 @@ export default {
 </script>
 
 <template>
-  <section class="form">
+  <v-form v-model="purchaseOrder">
+    <v-container>
+      <v-row>
+        <v-col cols="12" md="4">
+          <DatePicker
+            label="Request Date"
+            @change="(date) => (requestDate = date)"
+          />
+        </v-col>
+      </v-row>
+
+      <v-row>
+        <v-col cols="12" md="6">
+          <v-text-field v-model="requestor" label="Requestor" required />
+        </v-col>
+
+        <v-col cols="12" md="6">
+          <v-text-field v-model="vendor" label="Vendor" required />
+        </v-col>
+      </v-row>
+
+      <v-row>
+        <v-col cols="12" md="6">
+          <v-text-field v-model="quoteNumber" label="Quote Number" required />
+        </v-col>
+
+        <v-col cols="12" md="6">
+          <v-text-field v-model="subTotal" label="Sub-Total" required />
+        </v-col>
+      </v-row>
+
+      <v-row>
+        <v-col cols="12" md="4">
+          <DatePicker
+            label="Date Needed"
+            @change="(date) => (dateNeeded = date)"
+          />
+        </v-col>
+
+        <v-col cols="12" offset="2" md="6">
+          <v-text-field v-model="billableSC" label="Billable SC" required />
+        </v-col>
+      </v-row>
+
+      <v-row>
+        <v-btn color="success" class="mr-4" @click="onSave">
+          Save
+        </v-btn>
+      </v-row>
+    </v-container>
+  </v-form>
+  <!-- <section class="form">
     <div class="columns">
       <div class="column is-one-third">
         <div class="field">
@@ -187,5 +240,5 @@ export default {
     <button class="button is-primary is-rounded" v-on:click="onSave">
       Save
     </button>
-  </section>
+  </section> -->
 </template>

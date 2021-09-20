@@ -1,6 +1,6 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
-import PurchaseOrderForm from "../../components/purchase-order-form.vue";
+import PurchaseOrderForm from "../components/purchase-order-form.vue";
 
 const defaultPurchaseOrder = {
   requestDate: null,
@@ -49,10 +49,10 @@ export default {
         this.isReviewing = false;
       }
     },
+    ...mapActions("purchaseOrders", { savePurchaseOrder: "savePurchaseOrder" }),
     savePurchaseOrder() {
       this.$store.dispatch("savePurchaseOrder", this.purchaseOrder);
     },
-    ...mapActions("purchaseOrders", { savePurchaseOrder: "savePurchaseOrder" })
   },
 };
 </script>

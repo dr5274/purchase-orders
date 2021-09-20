@@ -1,6 +1,6 @@
 <script>
 import { mapGetters } from "vuex";
-import PurchaseOrderList from "../../components/purchase-order-list.vue";
+import PurchaseOrderList from "../components/purchase-order-list.vue";
 
 export default {
   name: "PurchaseOrders",
@@ -20,11 +20,5 @@ export default {
 </script>
 
 <template>
-  <div class="content-container">
-    <div class="columns is-multiline is-variable">
-      <div class="column is-12" v-if="purchaseOrders">
-        <PurchaseOrderList :purchaseOrders="purchaseOrders" />
-      </div>
-    </div>
-  </div>
+  <PurchaseOrderList :purchaseOrders="purchaseOrders" />
 </template>
