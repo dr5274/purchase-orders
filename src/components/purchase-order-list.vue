@@ -19,18 +19,19 @@ export default {
         { text: "SubTotal", value: "subTotalFormatted" },
         { text: "Date Needed", value: "dateNeededFormatted" },
         { text: "Billable SC", value: "billableSC" },
+        { text: "Actions", value: "id", sortable: false },
       ],
+      dialog: false,
     };
   },
   components: {},
   methods: {
-    selectPurchaseOrder(purchaseOrder) {
-      console.log(`You tried to select ${purchaseOrder.name}`);
-      this.$emit("selected", purchaseOrder);
+    editPurchaseOrder(id) {
+      this.$router.push({ name: "purchase-order", params: { id: id } });
     },
-
-    formattedDate(date) {
-      return this.purchaseOrder.requestDate;
+    deletePurchaseOrder(id) {
+      this.dialog = false;
+      alert("coming soon...");
     },
   },
   computed: {},
@@ -58,6 +59,29 @@ export default {
             />
           </v-col>
         </v-row>
+      </template>
+
+      <template v-slot:[`item.id`]="{ item }">
+        <v-icon small @click="editPurchaseOrder(item.id)">mdi-pencil</v-icon>
+        <v-dialog v-model="dialog" width="400">
+          <template v-slot:activator="{ on }">
+            <v-icon small v-on="on">mdi-delete</v-icon>
+          </template>
+          <v-card>
+            <v-card-title class="grey lighten-2"> Delete </v-card-title>
+            <v-card-text>
+              Are you sure you want to delete this purchase order?
+            </v-card-text>
+            <v-divider></v-divider>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="secondary" text @click="dialog = false"> No </v-btn>
+              <v-btn color="primary" text @click="deletePurchaseOrder(item.id)">
+                Ok
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
       </template>
     </v-data-table>
   </div>
