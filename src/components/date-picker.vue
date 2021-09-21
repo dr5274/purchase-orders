@@ -11,6 +11,10 @@ export default {
       type: String,
       required: true,
     },
+    value: {},
+  },
+  created() {
+    this.dateValue = this.value;
   },
   methods: {
     focusDate() {
@@ -38,7 +42,6 @@ export default {
     :nudge-right="40"
     transition="scale-transition"
     offset-y
-    full-width
     min-width="290px"
     max-width="290px"
   >

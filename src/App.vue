@@ -5,15 +5,15 @@
       <v-app-bar-title>{{ appTitle }}</v-app-bar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items>
-        <v-btn flat v-for="item in menuItems" :key="item.title" :to="item.path">
+        <v-btn text v-for="item in menuItems" :key="item.title" :to="item.path">
           {{ item.title }}
         </v-btn>
       </v-toolbar-items>
     </v-app-bar>
 
-    <v-content class="content">
+    <v-main class="content">
       <router-view />
-    </v-content>
+    </v-main>
   </v-app>
 </template>
 

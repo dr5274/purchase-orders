@@ -2,15 +2,16 @@
 import { mapGetters, mapActions } from "vuex";
 import PurchaseOrderForm from "../components/purchase-order-form.vue";
 
-const defaultPurchaseOrder = {
-  requestDate: null,
+const _defaultPurchaseOrder = {
+  id: 0,
+  requestDate: new Date().toISOString().substring(0, 10),
   requestor: null,
   vendor: null,
-  supplies: [null, null, null, null, null, null],
+  supplies: ["", "", "", "", "", ""],
   supplied: [false, false, false, false, false, false],
   quoteNumber: null,
   subTotal: null,
-  dateNeeded: null,
+  dateNeeded: new Date().toISOString().substring(0, 10),
   billableSC: null,
 };
 
@@ -20,7 +21,6 @@ export default {
     return {
       routePath: "/purchase-order",
       title: "Purchase Order",
-      purchaseOrder: {},
       isReviewing: false,
     };
   },
@@ -40,14 +40,10 @@ export default {
   },
   methods: {
     loadPurchaseOrder(id) {
-      let purchaseOrder = this.purchaseOrderById(id);
-      if (purchaseOrder) {
-        this.purchaseOrder = purchaseOrder;
-        this.isReviewing = true;
-      } else {
-        this.purchaseOrder = defaultPurchaseOrder;
-        this.isReviewing = false;
-      }
+      this.purchaseOrder = id
+        ? this.purchaseOrderById(id)
+        : _defaultPurchaseOrder;
+      this.isReviewing = id ? true : false;
     },
     ...mapActions("purchaseOrders", { savePurchaseOrder: "savePurchaseOrder" }),
     savePurchaseOrder() {
@@ -58,15 +54,9 @@ export default {
 </script>
 
 <template>
-  <div class="content-container">
-    <div class="columns is-multiline is-variable">
-      <div class="column is-10">
-        <PurchaseOrderForm
-          :purchaseOrder="purchaseOrder"
-          :isReviewing="isReviewing"
-          @savePurchaseOrder="savePurchaseOrder"
-        />
-      </div>
-    </div>
-  </div>
+  <PurchaseOrderForm
+    :purchaseOrder="purchaseOrder"
+    :isReviewing="isReviewing"
+    @savePurchaseOrder="savePurchaseOrder"
+  />
 </template>
