@@ -14,7 +14,7 @@ export default {
     console.log(this.purchaseOrder);
   },
   methods: {
-    onSave() {
+    savePurchaseOrder() {
       this.$emit("savePurchaseOrder", this.purchaseOrder);
     },
   },
@@ -131,7 +131,7 @@ export default {
       </v-row>
 
       <v-row>
-        <v-btn color="success" class="mr-4" @click="onSave"> Save </v-btn>
+        <v-btn color="success" class="mr-4" @click="savePurchaseOrder"> Save </v-btn>
       </v-row>
     </v-container>
   </v-form>

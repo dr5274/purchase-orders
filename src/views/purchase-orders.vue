@@ -1,5 +1,5 @@
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import PurchaseOrderList from "../components/purchase-order-list.vue";
 
 export default {
@@ -16,9 +16,18 @@ export default {
   computed: {
     ...mapGetters("purchaseOrders", { purchaseOrders: "purchaseOrders" }),
   },
+  methods: {
+    deletePurchaseOrder(id) {
+      this.delPurchaseOrder({ id });
+    },
+    ...mapActions("purchaseOrders", { delPurchaseOrder: "delPurchaseOrder" }),
+  },
 };
 </script>
 
 <template>
-  <PurchaseOrderList :purchaseOrders="purchaseOrders" />
+  <PurchaseOrderList
+    :purchaseOrders="purchaseOrders"
+    @deletePurchaseOrder="deletePurchaseOrder"
+  />
 </template>

@@ -31,7 +31,7 @@ export default {
     },
     deletePurchaseOrder(id) {
       this.dialog = false;
-      alert("coming soon...");
+      this.$emit("deletePurchaseOrder", id);
     },
   },
   computed: {},
@@ -46,6 +46,9 @@ export default {
       :headers="headers"
       :items="purchaseOrders"
       item-key="id"
+      multi-sort
+      :sort-by="['dateNeededFormatted']"
+      :sort-desc="[false]"
       :items-per-page="10"
     >
       <template v-slot:top>

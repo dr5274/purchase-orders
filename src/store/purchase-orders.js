@@ -215,29 +215,42 @@ export default {
   state: {
     purchaseOrders: null,
   },
-  mutations: {
-    PURCHASE_ORDERS(state, purchaseOrders) {
-      state.purchaseOrders = purchaseOrders;
-    },
-  },
+  mutations: {},
   actions: {
-    async savePurchaseOrder({ commit }, purchaseOrder) {
-      alert("save purchase order");
+    async putPurchaseOrder({ commit, getters }, { purchaseOrder }) {
+      let purchaseOrders = getters.purchaseOrders;
+      if (purchaseOrder.id === 0) {
+        // add
+        purchaseOrder.id =
+          purchaseOrders.reduce((max, po) => (po.id > max ? po.id : max), 0) +
+          1;
+        // purchaseOrders.push(purchaseOrder);
+        // localStorage.setItem("purchaseOrders", JSON.stringify(purchaseOrders));
+      } else {
+        // update
+        purchaseOrders = purchaseOrders.filter((po) => po.id !== purchaseOrder.id);
+        // purchaseOrders.push(purchaseOrder);
+        // localStorage.setItem("purchaseOrders", JSON.stringify(purchaseOrders));
+      }
+      purchaseOrders.push(purchaseOrder);
+      localStorage.setItem("purchaseOrders", JSON.stringify(purchaseOrders));
+    },
+
+    async delPurchaseOrder({ commit, getters }, { id }) {
+      alert("del purchase order");
     },
   },
   getters: {
     purchaseOrders: (state) => {
-      let purchaseOrders = state.purchaseOrders;
+      let purchaseOrders = JSON.parse(localStorage.getItem("purchaseOrders"));
       if (!purchaseOrders) {
-        purchaseOrders = localStorage.getItem("purchaseOrders");
-        if (!purchaseOrders) {
-          purchaseOrders = _defaultData;
-        }
+        purchaseOrders = _defaultData;
+        localStorage.setItem("purchaseOrders", JSON.stringify(purchaseOrders));
       }
       return purchaseOrders.map((po) => {
         // handle formatting/transformation
         po.requestDateFormatted = moment(po.requestDate).format("MM/DD/YYYY");
-        po.description = po.supplies.join(', ');
+        po.description = po.supplies.join(", ");
         po.subTotalFormatted = new Intl.NumberFormat("en-US", {
           style: "currency",
           currency: "USD",

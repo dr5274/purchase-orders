@@ -45,10 +45,12 @@ export default {
         : _defaultPurchaseOrder;
       this.isReviewing = id ? true : false;
     },
-    ...mapActions("purchaseOrders", { savePurchaseOrder: "savePurchaseOrder" }),
-    savePurchaseOrder() {
-      this.$store.dispatch("savePurchaseOrder", this.purchaseOrder);
+
+    savePurchaseOrder(purchaseOrder) {
+      this.putPurchaseOrder({ purchaseOrder });
     },
+
+    ...mapActions("purchaseOrders", { putPurchaseOrder: "putPurchaseOrder" }),
   },
 };
 </script>
