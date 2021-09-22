@@ -250,7 +250,7 @@ export default {
       return purchaseOrders.map((po) => {
         // handle formatting/transformation
         po.requestDateFormatted = moment(po.requestDate).format("MM/DD/YYYY");
-        po.description = po.supplies.join(", ");
+        po.description = po.supplies.filter(x => x).join(", ");
         po.subTotalFormatted = new Intl.NumberFormat("en-US", {
           style: "currency",
           currency: "USD",

@@ -2,8 +2,8 @@
 export default {
   data() {
     return {
-      dateMenu: false,
-      dateValue: null,
+      datePickerExpanded: false,
+      content: this.value,
     };
   },
   props: {
@@ -11,25 +11,29 @@ export default {
       type: String,
       required: true,
     },
-    value: {},
+    value: {
+      type: String,
+      required: true,
+    },
   },
-  created() {
-    this.dateValue = this.value;
-  },
+  created() {},
   methods: {
-    focusDate() {
+    showDatePicker() {
       setTimeout(() => {
-        if (!this.dateMenu) {
-          this.dateMenu = true;
+        if (!this.datePickerExpanded) {
+          this.datePickerExpanded = true;
         }
       }, 200);
     },
-    blurDate() {
+    hideDatePicker(value) {
       setTimeout(() => {
-        if (this.dateMenu) {
-          this.dateMenu = false;
+        if (this.datePickerExpanded) {
+          this.datePickerExpanded = false;
         }
       }, 200);
+    },
+    setValueToToday() {
+      this.content = new Date().toISOString().substring(0, 10);
     },
   },
 };
@@ -37,31 +41,26 @@ export default {
 
 <template>
   <v-menu
-    v-model="dateMenu"
-    :close-on-content-click="false"
-    :nudge-right="40"
+    v-model="datePickerExpanded"
+    :nudge-right="20"
     transition="scale-transition"
     offset-y
-    min-width="290px"
-    max-width="290px"
+    :close-on-content-click="false"
   >
     <template v-slot:activator="{ on }">
       <v-text-field
         :label="label"
         prepend-inner-icon="mdi-calendar"
-        readonly
         hide-details
-        :value="dateValue"
+        v-model="content"
         v-on="on"
-        @focus="focusDate"
-        @blur="blurDate"
-      ></v-text-field>
+        @focus="showDatePicker"
+        @blur="hideDatePicker"
+      />
     </template>
-    <v-date-picker
-      locale="en-in"
-      v-model="dateValue"
-      no-title
-      @input="dateMenu = false"
-    ></v-date-picker>
+    <v-date-picker v-model="content" no-title @input="hideDatePicker">
+      <v-spacer></v-spacer>
+      <v-btn text color="primary" @click="setValueToToday"> Today </v-btn>
+    </v-date-picker>
   </v-menu>
 </template>

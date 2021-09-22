@@ -11,9 +11,11 @@ export default {
     DatePicker,
   },
   created() {
-    console.log(this.purchaseOrder);
   },
   methods: {
+    setDateNeeded(date) {
+      alert(date);
+    },
     savePurchaseOrder() {
       this.$emit("savePurchaseOrder", this.purchaseOrder);
     },
@@ -27,9 +29,8 @@ export default {
       <v-row>
         <v-col cols="12" sm="3">
           <DatePicker
+            v-model="purchaseOrder.requestDate"
             label="Request Date"
-            :value="purchaseOrder.requestDate"
-            @change="(date) => (purchaseOrder.requestDate = date)"
           />
         </v-col>
 
@@ -122,16 +123,14 @@ export default {
         </v-col>
 
         <v-col cols="12" sm="3">
-          <DatePicker
-            label="Date Needed"
-            :value="purchaseOrder.dateNeeded"
-            @change="(date) => (purchaseOrder.dateNeeded = date)"
-          />
+          <DatePicker v-model="purchaseOrder.dateNeeded" label="Date Needed" />
         </v-col>
       </v-row>
 
       <v-row>
-        <v-btn color="success" class="mr-4" @click="savePurchaseOrder"> Save </v-btn>
+        <v-btn color="success" class="mr-4" @click="savePurchaseOrder">
+          Save
+        </v-btn>
       </v-row>
     </v-container>
   </v-form>
