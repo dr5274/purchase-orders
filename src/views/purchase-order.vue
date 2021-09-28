@@ -24,22 +24,25 @@ export default {
       isReviewing: false,
     };
   },
+  created() {
+    this.getPurchaseOrder(this.$route.params.id);
+  },
   components: {
     PurchaseOrderForm,
   },
   watch: {
     "$route.params.id": function (id) {
-      this.loadPurchaseOrder(id);
+      this.getPurchaseOrder(id);
     },
   },
-  created() {
-    this.loadPurchaseOrder(this.$route.params.id);
-  },
+
   computed: {
     ...mapGetters("purchaseOrders", { purchaseOrderById: "purchaseOrderById" }),
   },
   methods: {
-    loadPurchaseOrder(id) {
+    ...mapActions("purchaseOrders", { putPurchaseOrder: "putPurchaseOrder" }),
+
+    getPurchaseOrder(id) {
       this.purchaseOrder = id
         ? this.purchaseOrderById(id)
         : _defaultPurchaseOrder;
@@ -49,8 +52,6 @@ export default {
     savePurchaseOrder(purchaseOrder) {
       this.putPurchaseOrder({ purchaseOrder });
     },
-
-    ...mapActions("purchaseOrders", { putPurchaseOrder: "putPurchaseOrder" }),
   },
 };
 </script>

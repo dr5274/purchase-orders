@@ -66,6 +66,7 @@ export default {
 
       <template v-slot:[`item.id`]="{ item }">
         <v-icon small @click="editPurchaseOrder(item.id)">mdi-pencil</v-icon>
+        <span>&nbsp;</span>
         <v-dialog v-model="dialog" width="400">
           <template v-slot:activator="{ on }">
             <v-icon small v-on="on">mdi-delete</v-icon>

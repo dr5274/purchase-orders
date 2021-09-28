@@ -10,6 +10,9 @@ export default {
       title: "Purchase Orders",
     };
   },
+  created() {
+    this.getPurchaseOrders();
+  },
   components: {
     PurchaseOrderList,
   },
@@ -17,10 +20,13 @@ export default {
     ...mapGetters("purchaseOrders", { purchaseOrders: "purchaseOrders" }),
   },
   methods: {
+    ...mapActions("purchaseOrders", { getPurchaseOrders: "getPurchaseOrders" }),
+    ...mapActions("purchaseOrders", { delPurchaseOrder: "delPurchaseOrder" }),
+
     deletePurchaseOrder(id) {
       this.delPurchaseOrder({ id });
     },
-    ...mapActions("purchaseOrders", { delPurchaseOrder: "delPurchaseOrder" }),
+
   },
 };
 </script>
