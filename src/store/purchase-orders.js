@@ -1,5 +1,4 @@
 import Vue from "vue";
-import axios from "axios";
 import moment from "moment";
 
 // Vue.axios.defaults.baseURL = "http://localhost:7071/api/purchase-orders";
@@ -23,28 +22,36 @@ export default {
   },
   actions: {
     getPurchaseOrders({ commit }) {
-      axios.get("/api/purchase-orders").then((res) => {
-        let purchaseOrders = res == null ? [] : res.data;
-        commit(
-          "PURCHASE_ORDERS",
-          purchaseOrders.map((purchaseOrder) => {
-            purchaseOrder.requestDateFormatted = moment(
-              purchaseOrder.requestDate
-            ).format("MM/DD/YYYY");
-            purchaseOrder.description = purchaseOrder.supplies
-              .filter((x) => x)
-              .join(", ");
-            purchaseOrder.subTotalFormatted = new Intl.NumberFormat("en-US", {
-              style: "currency",
-              currency: "USD",
-            }).format(purchaseOrder.subTotal);
-            purchaseOrder.dateNeededFormatted = moment(
-              purchaseOrder.dateNeeded
-            ).format("MM/DD/YYYY");
-            return purchaseOrder;
-          })
-        );
-      });
+      fetch("/api/purchase-orders")
+        .then(res => res.json())
+        .then(res => res.purchaseOrders, {
+
+        })
+
+
+
+      // axios.get("/api/purchase-orders").then((res) => {
+      //   let purchaseOrders = res == null ? [] : res.data;
+      //   commit(
+      //     "PURCHASE_ORDERS",
+      //     purchaseOrders.map((purchaseOrder) => {
+      //       purchaseOrder.requestDateFormatted = moment(
+      //         purchaseOrder.requestDate
+      //       ).format("MM/DD/YYYY");
+      //       purchaseOrder.description = purchaseOrder.supplies
+      //         .filter((x) => x)
+      //         .join(", ");
+      //       purchaseOrder.subTotalFormatted = new Intl.NumberFormat("en-US", {
+      //         style: "currency",
+      //         currency: "USD",
+      //       }).format(purchaseOrder.subTotal);
+      //       purchaseOrder.dateNeededFormatted = moment(
+      //         purchaseOrder.dateNeeded
+      //       ).format("MM/DD/YYYY");
+      //       return purchaseOrder;
+      //     })
+      //   );
+      // });
     },
 
     // getPurchaseOrder({ commit }, id) {
