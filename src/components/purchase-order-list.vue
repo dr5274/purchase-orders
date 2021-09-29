@@ -19,7 +19,7 @@ export default {
         { text: "SubTotal", value: "subTotalFormatted" },
         { text: "Date Needed", value: "dateNeededFormatted" },
         { text: "Billable SC", value: "billableSC" },
-        { text: "Actions", value: "id", sortable: false },
+        { text: "Actions", value: "_id", sortable: false },
       ],
       dialog: false,
     };
@@ -45,7 +45,7 @@ export default {
       :search="search"
       :headers="headers"
       :items="purchaseOrders"
-      item-key="id"
+      item-key="_id"
       multi-sort
       :sort-by="['dateNeededFormatted']"
       :sort-desc="[false]"
@@ -64,8 +64,8 @@ export default {
         </v-row>
       </template>
 
-      <template v-slot:[`item.id`]="{ item }">
-        <v-icon small @click="editPurchaseOrder(item.id)">mdi-pencil</v-icon>
+      <template v-slot:[`item._id`]="{ item }">
+        <v-icon small @click="editPurchaseOrder(item._id)">mdi-pencil</v-icon>
         <span>&nbsp;</span>
         <v-dialog v-model="dialog" width="400">
           <template v-slot:activator="{ on }">
@@ -80,7 +80,7 @@ export default {
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn color="secondary" text @click="dialog = false"> No </v-btn>
-              <v-btn color="primary" text @click="deletePurchaseOrder(item.id)">
+              <v-btn color="primary" text @click="deletePurchaseOrder(item._id)">
                 Ok
               </v-btn>
             </v-card-actions>

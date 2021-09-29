@@ -3,7 +3,7 @@ import { mapGetters, mapActions } from "vuex";
 import PurchaseOrderForm from "../components/purchase-order-form.vue";
 
 const _defaultPurchaseOrder = {
-  id: 0,
+  _id: null,
   requestDate: new Date().toISOString().substring(0, 10),
   requestor: null,
   vendor: null,
@@ -40,7 +40,8 @@ export default {
     ...mapGetters("purchaseOrders", { purchaseOrderById: "purchaseOrderById" }),
   },
   methods: {
-    ...mapActions("purchaseOrders", { putPurchaseOrder: "putPurchaseOrder" }),
+    ...mapActions("purchaseOrders", { _createPurchaseOrder: "createPurchaseOrder" }),
+    ...mapActions("purchaseOrders", { _updatePurchaseOrder: "updatePurchaseOrder" }),
 
     getPurchaseOrder(id) {
       this.purchaseOrder = id
@@ -50,7 +51,11 @@ export default {
     },
 
     savePurchaseOrder(purchaseOrder) {
-      this.putPurchaseOrder({ purchaseOrder });
+      if (purchaseOrder._id) {
+        this._updatePurchaseOrder({ purchaseOrder });
+      } else {
+        this._createPurchaseOrder({ purchaseOrder });
+      }
     },
   },
 };

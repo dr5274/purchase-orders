@@ -11,7 +11,7 @@ export default {
     };
   },
   created() {
-    this.getPurchaseOrders();
+    this._getPurchaseOrders();
   },
   components: {
     PurchaseOrderList,
@@ -20,11 +20,11 @@ export default {
     ...mapGetters("purchaseOrders", { purchaseOrders: "purchaseOrders" }),
   },
   methods: {
-    ...mapActions("purchaseOrders", { getPurchaseOrders: "getPurchaseOrders" }),
-    ...mapActions("purchaseOrders", { delPurchaseOrder: "delPurchaseOrder" }),
+    ...mapActions("purchaseOrders", { _getPurchaseOrders: "getPurchaseOrders" }),
+    ...mapActions("purchaseOrders", { _deletePurchaseOrder: "deletePurchaseOrder" }),
 
-    deletePurchaseOrder(id) {
-      this.delPurchaseOrder({ id });
+    deletePurchaseOrder(_id) {
+      this._deletePurchaseOrder({ _id });
     },
   },
 };

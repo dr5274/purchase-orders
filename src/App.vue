@@ -1,9 +1,7 @@
 <template>
   <v-app app>
-    <v-app-bar absolute dense>
+    <v-app-bar absolute dense :data-appVersion="appVersion">
       <v-app-bar-title>{{ appTitle }}</v-app-bar-title>
-      &nbsp;
-      <v-app-bar-subtitle>{{ appVersion }}</v-app-bar-subtitle>
       <v-spacer></v-spacer>
       <v-toolbar-items>
         <v-btn text v-for="item in menuItems" :key="item.title" :to="item.path">
@@ -26,7 +24,7 @@ export default {
   data() {
     return {
       appTitle: "Purchase Orders",
-      appVersion: "v" + version,
+      appVersion: version,
       menuItems: [
         { title: "New Order", path: "/purchase-order" },
         { title: "Orders", path: "/purchase-orders" },
