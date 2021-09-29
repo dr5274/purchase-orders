@@ -26,7 +26,6 @@ export default {
     deletePurchaseOrder(id) {
       this.delPurchaseOrder({ id });
     },
-
   },
 };
 </script>

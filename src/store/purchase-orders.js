@@ -3,7 +3,7 @@ import axios from "axios";
 import moment from "moment";
 
 // Vue.axios.defaults.baseURL = "http://localhost:7071/api/purchase-orders";
-const API = "/api/purchase-orders";
+// const API = "/api/purchase-orders";
 // const HEADERS = {
 //   Accept: "application/json",
 //   "Content-Type": "application/json",
@@ -23,12 +23,25 @@ export default {
   },
   actions: {
     getPurchaseOrders({ commit }) {
-      axios.get(API + "/").then((res) => {
+      axios.get("/api/purchase-orders").then((res) => {
         let purchaseOrders = res == null ? [] : res.data;
         commit(
           "PURCHASE_ORDERS",
           purchaseOrders.map((purchaseOrder) => {
-            return transform(purchaseOrder);
+            purchaseOrder.requestDateFormatted = moment(
+              purchaseOrder.requestDate
+            ).format("MM/DD/YYYY");
+            purchaseOrder.description = purchaseOrder.supplies
+              .filter((x) => x)
+              .join(", ");
+            purchaseOrder.subTotalFormatted = new Intl.NumberFormat("en-US", {
+              style: "currency",
+              currency: "USD",
+            }).format(purchaseOrder.subTotal);
+            purchaseOrder.dateNeededFormatted = moment(
+              purchaseOrder.dateNeeded
+            ).format("MM/DD/YYYY");
+            return purchaseOrder;
           })
         );
       });
@@ -75,21 +88,4 @@ export default {
       return getters.purchaseOrders.find((po) => po.id == id);
     },
   },
-};
-
-const transform = (purchaseOrder) => {
-  purchaseOrder.requestDateFormatted = moment(purchaseOrder.requestDate).format(
-    "MM/DD/YYYY"
-  );
-  purchaseOrder.description = purchaseOrder.supplies
-    .filter((x) => x)
-    .join(", ");
-  purchaseOrder.subTotalFormatted = new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-  }).format(purchaseOrder.subTotal);
-  purchaseOrder.dateNeededFormatted = moment(purchaseOrder.dateNeeded).format(
-    "MM/DD/YYYY"
-  );
-  return purchaseOrder;
 };

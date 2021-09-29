@@ -10,8 +10,7 @@ export default {
   components: {
     DatePicker,
   },
-  created() {
-  },
+  created() {},
   methods: {
     setDateNeeded(date) {
       alert(date);
