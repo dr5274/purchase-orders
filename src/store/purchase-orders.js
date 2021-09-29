@@ -2,12 +2,8 @@ import Vue from "vue";
 import axios from "axios";
 import moment from "moment";
 
-// const _apiUrl = "/api/purchase-orders";
-const _apiUrl = "http://localhost:7071/api/purchase-orders";
-// const _headers = {
-//   Accept: "application/json",
-//   "Content-Type": "application/json",
-// };
+const _apiUrl = "/api/purchase-orders";
+// const _apiUrl = "http://localhost:7071/api/purchase-orders";
 
 export default {
   strict: process.env.NODE_ENV !== "production",
