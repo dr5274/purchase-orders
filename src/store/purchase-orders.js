@@ -3,7 +3,7 @@ import axios from "axios";
 import moment from "moment";
 
 // Vue.axios.defaults.baseURL = "http://localhost:7071/api/purchase-orders";
-const API = "http://localhost:7071/api/purchase-orders";
+const API = "/api/purchase-orders";
 // const HEADERS = {
 //   Accept: "application/json",
 //   "Content-Type": "application/json",
