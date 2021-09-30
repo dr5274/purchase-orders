@@ -11,18 +11,12 @@ const routes = [
   {
     path: "/purchase-order/:id?",
     name: "purchase-order",
-    component: () =>
-      import(
-        /* webpackChunkName: "purchase-order" */ "./views/purchase-order.vue"
-      ),
+    component: () => import(/* webpackChunkName: "purchase-order" */ "./views/purchase-order.vue"),
   },
   {
     path: "/purchase-orders",
     name: "purchase-orders",
-    component: () =>
-      import(
-        /* webpackChunkName: "purchase-orders" */ "./views/purchase-orders.vue"
-      ),
+    component: () => import(/* webpackChunkName: "purchase-orders" */ "./views/purchase-orders.vue"),
   },
 ];
 

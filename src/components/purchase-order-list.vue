@@ -80,7 +80,11 @@ export default {
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn color="secondary" text @click="dialog = false"> No </v-btn>
-              <v-btn color="primary" text @click="deletePurchaseOrder(item._id)">
+              <v-btn
+                color="primary"
+                text
+                @click="deletePurchaseOrder(item._id)"
+              >
                 Ok
               </v-btn>
             </v-card-actions>

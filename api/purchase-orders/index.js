@@ -33,6 +33,12 @@ const schema = new mongoose.Schema({
   subTotal: Number,
   dateNeeded: Date,
   billableSC: String,
+  requestSent: Date,
+  dateReceived: Date,
+  poNumber: String,
+  complete: Boolean,
+  notes: String,
+  assignedTo: String,
 });
 
 // Create a model using our schema
@@ -65,8 +71,14 @@ module.exports = async function(context, req) {
 };
 
 async function getPurchaseOrders(context) {
-  const purchaseOrders = await model.find();
-  context.res.body = { purchaseOrders: purchaseOrders };
+  const id = context.bindingData.id;
+  if (id) {
+    const purchaseOrder = await model.findOne({ _id: id });
+    context.res.body = { purchaseOrder: purchaseOrder };
+  } else {
+    const purchaseOrders = await model.find();
+    context.res.body = { purchaseOrders: purchaseOrders };
+  }
 }
 
 async function createPurchaseOrder(context) {

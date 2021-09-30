@@ -1,5 +1,8 @@
 <script>
-import { mapGetters, mapActions } from "vuex";
+import {
+  _getPurchaseOrders,
+  _deletePurchaseOrder,
+} from "../data-access/purchase-orders";
 import PurchaseOrderList from "../components/purchase-order-list.vue";
 
 export default {
@@ -8,23 +11,24 @@ export default {
     return {
       routePath: "/purchase-orders",
       title: "Purchase Orders",
+      purchaseOrders: [],
     };
   },
   created() {
-    this._getPurchaseOrders();
+    _getPurchaseOrders().then((res) => {
+      this.purchaseOrders = res;
+    });
   },
   components: {
     PurchaseOrderList,
   },
-  computed: {
-    ...mapGetters("purchaseOrders", { purchaseOrders: "purchaseOrders" }),
-  },
   methods: {
-    ...mapActions("purchaseOrders", { _getPurchaseOrders: "getPurchaseOrders" }),
-    ...mapActions("purchaseOrders", { _deletePurchaseOrder: "deletePurchaseOrder" }),
-
     deletePurchaseOrder(_id) {
-      this._deletePurchaseOrder({ _id });
+      _deletePurchaseOrder(_id).then((res) => {
+        _getPurchaseOrders().then((res) => {
+          this.purchaseOrders = res;
+        });
+      });
     },
   },
 };

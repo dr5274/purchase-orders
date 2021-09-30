@@ -6,6 +6,10 @@ export default {
   props: {
     purchaseOrder: {},
     isReviewing: {},
+    assignees: {
+      type: Array,
+      default: () => [],
+    },
   },
   components: {
     DatePicker,
@@ -25,6 +29,22 @@ export default {
 <template>
   <v-form>
     <v-container>
+      <v-row v-if="isReviewing">
+        <v-col cols="12" sm="3">
+          <v-switch v-model="purchaseOrder.complete" label="Complete" />
+        </v-col>
+
+        <v-col cols="12" sm="6">
+          <v-combobox
+            v-model="purchaseOrder.assignedTo"
+            :items="assignees"
+            label="Assigned To"
+            dense
+            multiple
+          />
+        </v-col>
+      </v-row>
+
       <v-row>
         <v-col cols="12" sm="3">
           <DatePicker
@@ -123,6 +143,41 @@ export default {
 
         <v-col cols="12" sm="3">
           <DatePicker v-model="purchaseOrder.dateNeeded" label="Date Needed" />
+        </v-col>
+      </v-row>
+
+      <v-row>
+        <v-col cols="12" sm="3">
+          <v-text-field
+            v-model="purchaseOrder.poNumber"
+            label="PO Number"
+            required
+          />
+        </v-col>
+
+        <v-col cols="12" sm="3">
+          <DatePicker
+            v-model="purchaseOrder.requestSent"
+            label="Request Sent"
+          />
+        </v-col>
+
+        <v-col cols="12" sm="3">
+          <DatePicker
+            v-model="purchaseOrder.dateReceived"
+            label="Date Received"
+          />
+        </v-col>
+      </v-row>
+
+      <v-row>
+        <v-col cols="12" sm="12">
+          <v-textarea
+            v-model="purchaseOrder.notes"
+            label="Notes"
+            auto-grow
+            clearable
+          />
         </v-col>
       </v-row>
 

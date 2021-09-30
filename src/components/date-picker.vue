@@ -1,21 +1,23 @@
 <script>
+import moment from "moment";
+
 export default {
   data() {
     return {
       datePickerExpanded: false,
-      content: this.value,
+      content: moment(this.value).format("YYYY-MM-DD"),
+      pickerDate: null,
     };
   },
   props: {
-    label: {
-      type: String,
-      required: true,
-    },
-    value: {
-      type: String,
-      required: true,
-    },
+    label: {},
+    value: {},
   },
+  watch: {
+      pickerDate (val) {
+        let abc=123;
+      },
+    },
   created() {},
   methods: {
     showDatePicker() {
@@ -34,6 +36,7 @@ export default {
     },
     setValueToToday() {
       this.content = new Date().toISOString().substring(0, 10);
+      this.hideDatePicker();
     },
   },
 };
@@ -58,7 +61,7 @@ export default {
         @blur="hideDatePicker"
       />
     </template>
-    <v-date-picker v-model="content" no-title @input="hideDatePicker">
+    <v-date-picker v-model="content" no-title @input="hideDatePicker" :picker-date.sync="pickerDate">
       <v-spacer></v-spacer>
       <v-btn text color="primary" @click="setValueToToday"> Today </v-btn>
     </v-date-picker>
