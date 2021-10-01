@@ -2,7 +2,7 @@
 import {
   _getPurchaseOrder,
   _savePurchaseOrder,
-  _defaultPurchaseOrder
+  _defaultPurchaseOrder,
 } from "../data-access/purchase-orders";
 import PurchaseOrderForm from "../components/purchase-order-form.vue";
 
@@ -12,7 +12,11 @@ export default {
     return {
       routePath: "/purchase-order",
       title: "Purchase Order",
-      purchaseOrder: _defaultPurchaseOrder,
+      purchaseOrder: {
+        requestDate: "1960-09-01",
+        supplies: ["", "", "", "", "", ""],
+        supplied: [false, false, false, false, false, false],
+      },
       assignees: ["Amanda", "Lelana"],
     };
   },

@@ -1,42 +1,72 @@
 <script>
-import moment from "moment";
-
 export default {
-  data() {
+  // data: (vm) => ({
+  //   date: this.value
+  //     ? this.formatDate(this.value)
+  //     : new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+  //         .toISOString()
+  //         .substr(0, 10),
+  //   // date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+  //   //   .toISOString()
+  //   //   .substr(0, 10),
+  //   // dateFormatted: vm.formatDate(
+  //   //   new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+  //   //     .toISOString()
+  //   //     .substr(0, 10)
+  //   // ),
+  //   // date1: new Date(this.value)
+  //   //   .toISOString()
+  //   //   .substr(0, 10),
+  //   // dateFormatted1: vm.formatDate(
+  //   //   new Date(this.value)
+  //   //     .toISOString()
+  //   //     .substr(0, 10)
+  //   // ),
+  //   menu: false,
+  // }),
+  data(vm) {
+    let date = this.value
+      ? vm.formatDate(this.value)
+      : new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+          .toISOString()
+          .substr(0, 10);
     return {
-      datePickerExpanded: false,
-      content: moment(this.value).format("YYYY-MM-DD"),
-      pickerDate: null,
+      menu: false,
+      date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+        .toISOString()
+        .substr(0, 10),
     };
   },
   props: {
     label: {},
     value: {},
   },
-  watch: {
-      pickerDate (val) {
-        let abc=123;
-      },
-    },
   created() {},
-  methods: {
-    showDatePicker() {
-      setTimeout(() => {
-        if (!this.datePickerExpanded) {
-          this.datePickerExpanded = true;
-        }
-      }, 200);
+  computed: {
+    computedDateFormatted() {
+      return this.formatDate(this.date);
     },
-    hideDatePicker(value) {
-      setTimeout(() => {
-        if (this.datePickerExpanded) {
-          this.datePickerExpanded = false;
-        }
-      }, 200);
+  },
+  watch: {
+    date(val) {
+      this.dateFormatted = this.formatDate(this.date);
+    },
+  },
+  methods: {
+    formatDate(date) {
+      if (!date) return null;
+      const [year, month, day] = date.split("-");
+      return `${month}/${day}/${year}`;
+    },
+    parseDate(date) {
+      if (!date) return null;
+      const [month, day, year] = date.split("/");
+      return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
     },
     setValueToToday() {
-      this.content = new Date().toISOString().substring(0, 10);
-      this.hideDatePicker();
+      this.date = new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+        .toISOString()
+        .substr(0, 10);
     },
   },
 };
@@ -44,26 +74,29 @@ export default {
 
 <template>
   <v-menu
-    v-model="datePickerExpanded"
-    :nudge-right="20"
+    ref="menu"
+    v-model="menu"
+    :close-on-content-click="false"
+    :return-value.sync="date"
     transition="scale-transition"
     offset-y
-    :close-on-content-click="false"
+    min-width="auto"
   >
-    <template v-slot:activator="{ on }">
+    <template v-slot:activator="{ on, attrs }">
       <v-text-field
+        v-model="computedDateFormatted"
         :label="label"
-        prepend-inner-icon="mdi-calendar"
-        hide-details
-        v-model="content"
+        prepend-icon="mdi-calendar"
+        readonly
+        v-bind="attrs"
         v-on="on"
-        @focus="showDatePicker"
-        @blur="hideDatePicker"
       />
     </template>
-    <v-date-picker v-model="content" no-title @input="hideDatePicker" :picker-date.sync="pickerDate">
-      <v-spacer></v-spacer>
+    <v-date-picker v-model="date" no-title scrollable>
       <v-btn text color="primary" @click="setValueToToday"> Today </v-btn>
+      <v-spacer></v-spacer>
+      <v-btn text color="primary" @click="menu = false"> Cancel </v-btn>
+      <v-btn text color="primary" @click="$refs.menu.save(date)"> OK </v-btn>
     </v-date-picker>
   </v-menu>
 </template>

@@ -16,9 +16,6 @@ export default {
   },
   created() {},
   methods: {
-    setDateNeeded(date) {
-      alert(date);
-    },
     savePurchaseOrder() {
       this.$emit("savePurchaseOrder", this.purchaseOrder);
     },
