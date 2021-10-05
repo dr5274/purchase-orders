@@ -38,7 +38,7 @@ const schema = new mongoose.Schema({
   poNumber: String,
   complete: Boolean,
   notes: String,
-  assignedTo: String,
+  assignedTo: [String],
 });
 
 // Create a model using our schema

@@ -3,6 +3,7 @@ import DatePicker from "../components/date-picker.vue";
 
 export default {
   name: "PurchaseOrderForm",
+
   props: {
     purchaseOrder: {},
     isReviewing: {},
@@ -11,13 +12,20 @@ export default {
       default: () => [],
     },
   },
+
   components: {
     DatePicker,
   },
+
   created() {},
+
   methods: {
-    savePurchaseOrder() {
-      this.$emit("savePurchaseOrder", this.purchaseOrder);
+    onSaveChanges() {
+      this.$emit("onSaveChanges", this.purchaseOrder);
+    },
+
+    onCancelChanges() {
+      this.$emit("onCancelChanges", this.purchaseOrder);
     },
   },
 };
@@ -38,6 +46,7 @@ export default {
             label="Assigned To"
             dense
             multiple
+            chips
           />
         </v-col>
       </v-row>
@@ -72,21 +81,21 @@ export default {
           <v-switch class="ml-auto" v-model="purchaseOrder.supplied[0]" />
         </v-col>
         <v-col class="col-11" :class="isReviewing ? 'col-sm-3' : 'col-sm-4'">
-          <v-text-field v-model="purchaseOrder.supplies[0]" />
+          <v-text-field v-model="purchaseOrder.supplies[0]" label="supply" />
         </v-col>
 
         <v-col cols="1" xs="1" v-if="isReviewing">
           <v-switch v-model="purchaseOrder.supplied[1]" />
         </v-col>
         <v-col class="col-11" :class="isReviewing ? 'col-sm-3' : 'col-sm-4'">
-          <v-text-field v-model="purchaseOrder.supplies[1]" />
+          <v-text-field v-model="purchaseOrder.supplies[1]" label="supply" />
         </v-col>
 
         <v-col cols="1" xs="1" v-if="isReviewing">
           <v-switch v-model="purchaseOrder.supplied[2]" />
         </v-col>
         <v-col class="col-11" :class="isReviewing ? 'col-sm-3' : 'col-sm-4'">
-          <v-text-field v-model="purchaseOrder.supplies[2]" />
+          <v-text-field v-model="purchaseOrder.supplies[2]" label="supply" />
         </v-col>
       </v-row>
 
@@ -95,21 +104,21 @@ export default {
           <v-switch v-model="purchaseOrder.supplied[3]" />
         </v-col>
         <v-col class="col-11" :class="isReviewing ? 'col-sm-3' : 'col-sm-4'">
-          <v-text-field v-model="purchaseOrder.supplies[3]" />
+          <v-text-field v-model="purchaseOrder.supplies[3]" label="supply" />
         </v-col>
 
         <v-col cols="1" xs="1" v-if="isReviewing">
           <v-switch v-model="purchaseOrder.supplied[4]" />
         </v-col>
         <v-col class="col-11" :class="isReviewing ? 'col-sm-3' : 'col-sm-4'">
-          <v-text-field v-model="purchaseOrder.supplies[4]" />
+          <v-text-field v-model="purchaseOrder.supplies[4]" label="supply" />
         </v-col>
 
         <v-col cols="1" xs="1" v-if="isReviewing">
           <v-switch v-model="purchaseOrder.supplied[5]" />
         </v-col>
         <v-col class="col-11" :class="isReviewing ? 'col-sm-3' : 'col-sm-4'">
-          <v-text-field v-model="purchaseOrder.supplies[5]" />
+          <v-text-field v-model="purchaseOrder.supplies[5]" label="supply" />
         </v-col>
       </v-row>
 
@@ -172,6 +181,7 @@ export default {
           <v-textarea
             v-model="purchaseOrder.notes"
             label="Notes"
+            outlined
             auto-grow
             clearable
           />
@@ -179,8 +189,11 @@ export default {
       </v-row>
 
       <v-row>
-        <v-btn color="success" class="mr-4" @click="savePurchaseOrder">
+        <v-btn color="primary" class="mr-4" @click="onSaveChanges">
           Save
+        </v-btn>
+        <v-btn v-if="isReviewing" class="mr-4" @click="onCancelChanges">
+          Cancel
         </v-btn>
       </v-row>
     </v-container>

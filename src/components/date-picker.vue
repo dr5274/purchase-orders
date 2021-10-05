@@ -5,28 +5,41 @@ export default {
       menu: false,
     };
   },
+
   props: {
     label: {},
     value: {
       type: String,
-      default: new Date().toISOString().substr(0, 10),
+      default: null,
     },
   },
+
   created() {},
+
   computed: {
     picker: {
       get() {
         return this.value;
       },
+
       set(val) {
         this.menu = false;
         this.$emit("input", val);
       },
     },
   },
+
   methods: {
-    setValueToToday() {
-      this.picker = new Date().toISOString().substr(0, 10);
+    clearPicker() {
+      this.picker = null;
+    },
+
+    pickToday() {
+      this.picker = new Date(
+        Date.now() - new Date().getTimezoneOffset() * 60000
+      )
+        .toISOString()
+        .substr(0, 10);
     },
   },
 };
@@ -52,8 +65,9 @@ export default {
       />
     </template>
     <v-date-picker v-model="picker" no-title scrollable>
+      <v-btn text color="primary" @click="clearPicker"> Clear </v-btn>
       <v-spacer></v-spacer>
-      <v-btn text color="primary" @click="setValueToToday"> Today </v-btn>
+      <v-btn text color="primary" @click="pickToday"> Today </v-btn>
     </v-date-picker>
   </v-menu>
 </template>
