@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// const _apiUrl = "/api/purchase-orders";
-const _apiUrl = "http://localhost:7071/api/purchase-orders";
+const _apiUrl = "/api/purchase-orders";
+// const _apiUrl = "http://localhost:7071/api/purchase-orders";
 
 export const _defaultPurchaseOrder = {
   _id: null,
