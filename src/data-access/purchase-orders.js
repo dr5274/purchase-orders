@@ -45,19 +45,25 @@ const _formatCurrency = (obj, field) => {
   }
 };
 
-const _fixup = (purchaseOrder) => {
+const _transform = (purchaseOrder) => {
   _formatDate(purchaseOrder, "requestDate");
   _formatDate(purchaseOrder, "dateNeeded");
   _formatDate(purchaseOrder, "requestSent");
   _formatDate(purchaseOrder, "dateReceived");
   _formatCurrency(purchaseOrder, "subTotal");
+  purchaseOrder.assignedToFormatted = purchaseOrder.assignedTo
+          .filter((x) => x)
+          .join(", ");
+  purchaseOrder.suppliesFormatted = purchaseOrder.supplies
+          .filter((x) => x)
+          .join(", ");
   return purchaseOrder;
 };
 
 export const _getPurchaseOrders = () => {
   return axios.get(_apiUrl).then((res) => {
     return res.data.purchaseOrders.map((purchaseOrder) => {
-      return _fixup(purchaseOrder);
+      return _transform(purchaseOrder);
     });
   });
 };
@@ -65,10 +71,10 @@ export const _getPurchaseOrders = () => {
 export const _getPurchaseOrder = (_id) => {
   if (_id) {
     return axios.get(_apiUrl + `/${_id}`).then((res) => {
-      return _fixup(res.data.purchaseOrder);
+      return _transform(res.data.purchaseOrder);
     });
   } else {
-    return Promise.resolve(_fixup(_defaultPurchaseOrder));
+    return Promise.resolve(_transform(_defaultPurchaseOrder));
   }
 };
 
