@@ -28,8 +28,8 @@ const _formatDate = (obj, field) => {
     let date = new Date(Date.parse(value) + new Date().getTimezoneOffset() * 60000);
     obj[field] = date.toISOString().substr(0, 10);
     obj[field + "Formatted"] = new Intl.DateTimeFormat("en-US", {
-      month: "numeric",
-      day: "numeric",
+      month: "2-digit",
+      day: "2-digit",
       year: "numeric",
     }).format(date);
   }

@@ -52,14 +52,7 @@ export default {
       </v-row>
 
       <v-row>
-        <v-col cols="12" sm="3">
-          <DatePicker
-            v-model="purchaseOrder.requestDate"
-            label="Request Date"
-          />
-        </v-col>
-
-        <v-col cols="12" sm="3">
+        <v-col cols="12" sm="2">
           <v-text-field
             v-model="purchaseOrder.requestor"
             label="Requestor"
@@ -67,58 +60,95 @@ export default {
           />
         </v-col>
 
-        <v-col cols="12" sm="3">
+        <v-col cols="12" sm="2">
           <v-text-field
             v-model="purchaseOrder.vendor"
             label="Vendor"
             required
           />
         </v-col>
+
+        <v-col cols="12" sm="2">
+          <DatePicker
+            v-model="purchaseOrder.requestDate"
+            label="Request Date"
+          />
+        </v-col>
+
+        <v-col cols="12" sm="2">
+          <DatePicker v-model="purchaseOrder.dateNeeded" label="Date Needed" />
+        </v-col>
+
+        <v-col cols="12" sm="2">
+          <DatePicker
+            v-model="purchaseOrder.requestSent"
+            label="Request Sent"
+          />
+        </v-col>
+
+        <v-col cols="12" sm="2">
+          <DatePicker
+            v-model="purchaseOrder.dateReceived"
+            label="Date Received"
+          />
+        </v-col>
       </v-row>
 
       <v-row>
-        <v-col cols="1" xs="1" v-if="isReviewing">
-          <v-switch class="ml-auto" v-model="purchaseOrder.supplied[0]" />
-        </v-col>
-        <v-col class="col-11" :class="isReviewing ? 'col-sm-3' : 'col-sm-4'">
-          <v-text-field v-model="purchaseOrder.supplies[0]" label="supply" />
-        </v-col>
-
-        <v-col cols="1" xs="1" v-if="isReviewing">
-          <v-switch v-model="purchaseOrder.supplied[1]" />
-        </v-col>
-        <v-col class="col-11" :class="isReviewing ? 'col-sm-3' : 'col-sm-4'">
-          <v-text-field v-model="purchaseOrder.supplies[1]" label="supply" />
+        <v-col cols="12" sm="4">
+          <v-switch v-if="isReviewing" v-model="purchaseOrder.supplied[0]">
+            <template v-slot:label>
+              <v-text-field v-model="purchaseOrder.supplies[0]" />
+            </template>
+          </v-switch>
+          <v-text-field v-else v-model="purchaseOrder.supplies[0]" />
         </v-col>
 
-        <v-col cols="1" xs="1" v-if="isReviewing">
-          <v-switch v-model="purchaseOrder.supplied[2]" />
+        <v-col cols="12" sm="4">
+          <v-switch v-if="isReviewing" v-model="purchaseOrder.supplied[1]">
+            <template v-slot:label>
+              <v-text-field v-model="purchaseOrder.supplies[1]" />
+            </template>
+          </v-switch>
+          <v-text-field v-else v-model="purchaseOrder.supplies[1]" />
         </v-col>
-        <v-col class="col-11" :class="isReviewing ? 'col-sm-3' : 'col-sm-4'">
-          <v-text-field v-model="purchaseOrder.supplies[2]" label="supply" />
+
+        <v-col cols="12" sm="4">
+          <v-switch v-if="isReviewing" v-model="purchaseOrder.supplied[2]">
+            <template v-slot:label>
+              <v-text-field v-model="purchaseOrder.supplies[2]" />
+            </template>
+          </v-switch>
+          <v-text-field v-else v-model="purchaseOrder.supplies[2]" />
         </v-col>
       </v-row>
 
       <v-row>
-        <v-col cols="1" xs="1" v-if="isReviewing">
-          <v-switch v-model="purchaseOrder.supplied[3]" />
-        </v-col>
-        <v-col class="col-11" :class="isReviewing ? 'col-sm-3' : 'col-sm-4'">
-          <v-text-field v-model="purchaseOrder.supplies[3]" label="supply" />
-        </v-col>
-
-        <v-col cols="1" xs="1" v-if="isReviewing">
-          <v-switch v-model="purchaseOrder.supplied[4]" />
-        </v-col>
-        <v-col class="col-11" :class="isReviewing ? 'col-sm-3' : 'col-sm-4'">
-          <v-text-field v-model="purchaseOrder.supplies[4]" label="supply" />
+        <v-col cols="12" sm="4">
+          <v-switch v-if="isReviewing" v-model="purchaseOrder.supplied[3]">
+            <template v-slot:label>
+              <v-text-field v-model="purchaseOrder.supplies[3]" />
+            </template>
+          </v-switch>
+          <v-text-field v-else v-model="purchaseOrder.supplies[3]" />
         </v-col>
 
-        <v-col cols="1" xs="1" v-if="isReviewing">
-          <v-switch v-model="purchaseOrder.supplied[5]" />
+        <v-col cols="12" sm="4">
+          <v-switch v-if="isReviewing" v-model="purchaseOrder.supplied[4]">
+            <template v-slot:label>
+              <v-text-field v-model="purchaseOrder.supplies[4]" />
+            </template>
+          </v-switch>
+          <v-text-field v-else v-model="purchaseOrder.supplies[4]" />
         </v-col>
-        <v-col class="col-11" :class="isReviewing ? 'col-sm-3' : 'col-sm-4'">
-          <v-text-field v-model="purchaseOrder.supplies[5]" label="supply" />
+
+        <v-col cols="12" sm="4">
+          <v-switch v-if="isReviewing" v-model="purchaseOrder.supplied[5]">
+            <template v-slot:label>
+              <v-text-field v-model="purchaseOrder.supplies[5]" />
+            </template>
+          </v-switch>
+          <v-text-field v-else v-model="purchaseOrder.supplies[5]" />
         </v-col>
       </v-row>
 
@@ -133,8 +163,8 @@ export default {
 
         <v-col cols="12" sm="3">
           <v-text-field
-            v-model="purchaseOrder.subTotal"
-            label="Sub-Total"
+            v-model="purchaseOrder.poNumber"
+            label="PO Number"
             required
           />
         </v-col>
@@ -148,30 +178,10 @@ export default {
         </v-col>
 
         <v-col cols="12" sm="3">
-          <DatePicker v-model="purchaseOrder.dateNeeded" label="Date Needed" />
-        </v-col>
-      </v-row>
-
-      <v-row>
-        <v-col cols="12" sm="3">
           <v-text-field
-            v-model="purchaseOrder.poNumber"
-            label="PO Number"
+            v-model="purchaseOrder.subTotal"
+            label="Sub-Total"
             required
-          />
-        </v-col>
-
-        <v-col cols="12" sm="3">
-          <DatePicker
-            v-model="purchaseOrder.requestSent"
-            label="Request Sent"
-          />
-        </v-col>
-
-        <v-col cols="12" sm="3">
-          <DatePicker
-            v-model="purchaseOrder.dateReceived"
-            label="Date Received"
           />
         </v-col>
       </v-row>

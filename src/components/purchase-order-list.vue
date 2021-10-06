@@ -99,10 +99,8 @@ export default {
       </template>
 
       <template v-slot:[`item.complete`]="{ item }">
-        <v-icon v-if="item.complete" small>
-          mdi-clipboard-check-outline
-        </v-icon>
-        <v-icon v-if="!item.complete" small> mdi-clipboard-outline </v-icon>
+        <v-icon v-if="item.complete" small> mdi-checkbox-marked-outline </v-icon>
+        <v-icon v-else small> mdi-checkbox-blank-outline </v-icon>
       </template>
 
       <template v-slot:[`item._id`]="{ item }">
