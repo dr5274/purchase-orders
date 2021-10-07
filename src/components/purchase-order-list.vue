@@ -25,27 +25,21 @@ export default {
         },
         { text: "Assigned To", value: "assignedToFormatted" },
         { text: "Date Requested", value: "requestDateFormatted" },
+        { text: "Date Needed", value: "dateNeededFormatted" },
         { text: "Requestor", value: "requestor" },
         { text: "Vendor", value: "vendor" },
         { text: "Supplies", value: "suppliesFormatted" },
-        { text: "Quote", value: "quoteNumber" },
-        { text: "SubTotal", value: "subTotalFormatted" },
-        { text: "Date Needed", value: "dateNeededFormatted" },
-        { text: "Billable SC", value: "billableSC" },
-        { text: "Notes", value: "notes" },
+        // { text: "Quote", value: "quoteNumber" },
+        // { text: "SubTotal", value: "subTotalFormatted" },
+        // { text: "Billable SC", value: "billableSC" },
+        // { text: "Notes", value: "notes" },
         { text: "Actions", value: "_id", sortable: false },
       ],
       deleteConfirmation: false,
     };
   },
 
-  components: {},
-
   methods: {
-    itemClass(purchaseOrder) {
-      return purchaseOrder.complete ? "is-complete" : "";
-    },
-
     editPurchaseOrder(id) {
       this.$router.push({ name: "purchase-order", params: { id: id } });
     },
@@ -70,12 +64,10 @@ export default {
   <div>
     <v-data-table
       dense
-      :search="search"
       :headers="headers"
       :items="filteredPurchaseOrders"
+      :search="search"
       item-key="_id"
-      :item-class="itemClass"
-      multi-sort
       :sort-by="['dateNeededFormatted']"
       :sort-desc="[false]"
       :items-per-page="10"
@@ -99,8 +91,7 @@ export default {
       </template>
 
       <template v-slot:[`item.complete`]="{ item }">
-        <v-icon v-if="item.complete" small> mdi-checkbox-marked-outline </v-icon>
-        <v-icon v-else small> mdi-checkbox-blank-outline </v-icon>
+        <v-simple-checkbox v-model="item.complete" disabled />
       </template>
 
       <template v-slot:[`item._id`]="{ item }">

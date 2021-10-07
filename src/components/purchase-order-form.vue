@@ -17,8 +17,6 @@ export default {
     DatePicker,
   },
 
-  created() {},
-
   methods: {
     onSaveChanges() {
       this.$emit("onSaveChanges", this.purchaseOrder);
@@ -52,7 +50,7 @@ export default {
       </v-row>
 
       <v-row>
-        <v-col cols="12" sm="2">
+        <v-col cols="12" sm="4">
           <v-text-field
             v-model="purchaseOrder.requestor"
             label="Requestor"
@@ -60,7 +58,20 @@ export default {
           />
         </v-col>
 
-        <v-col cols="12" sm="2">
+        <v-col cols="12" sm="3">
+          <DatePicker
+            v-model="purchaseOrder.requestDate"
+            label="Request Date"
+          />
+        </v-col>
+
+        <v-col cols="12" sm="3">
+          <DatePicker v-model="purchaseOrder.dateNeeded" label="Date Needed" />
+        </v-col>
+      </v-row>
+
+      <v-row>
+        <v-col cols="12" sm="4">
           <v-text-field
             v-model="purchaseOrder.vendor"
             label="Vendor"
@@ -68,25 +79,14 @@ export default {
           />
         </v-col>
 
-        <v-col cols="12" sm="2">
-          <DatePicker
-            v-model="purchaseOrder.requestDate"
-            label="Request Date"
-          />
-        </v-col>
-
-        <v-col cols="12" sm="2">
-          <DatePicker v-model="purchaseOrder.dateNeeded" label="Date Needed" />
-        </v-col>
-
-        <v-col cols="12" sm="2">
+        <v-col cols="12" sm="3">
           <DatePicker
             v-model="purchaseOrder.requestSent"
             label="Request Sent"
           />
         </v-col>
 
-        <v-col cols="12" sm="2">
+        <v-col cols="12" sm="3">
           <DatePicker
             v-model="purchaseOrder.dateReceived"
             label="Date Received"
