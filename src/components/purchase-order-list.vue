@@ -29,10 +29,10 @@ export default {
         { text: "Requestor", value: "requestor" },
         { text: "Vendor", value: "vendor" },
         { text: "Supplies", value: "suppliesFormatted" },
-        // { text: "Quote", value: "quoteNumber" },
-        // { text: "SubTotal", value: "subTotalFormatted" },
-        // { text: "Billable SC", value: "billableSC" },
-        // { text: "Notes", value: "notes" },
+        { text: "Quote", value: "quoteNumber", showIf: "lgAndUp" },
+        { text: "SubTotal", value: "subTotalFormatted", showIf: "lgAndUp" },
+        { text: "Billable SC", value: "billableSC", showIf: "lgAndUp" },
+        { text: "Notes", value: "notes", showIf: "lgAndUp" },
         { text: "Actions", value: "_id", sortable: false },
       ],
       deleteConfirmation: false,
@@ -51,6 +51,12 @@ export default {
   },
 
   computed: {
+    filteredHeaders() {
+      return this.headers.filter(
+        (header) => !header.showIf || this.$vuetify.breakpoint[header.showIf]
+      );
+    },
+
     filteredPurchaseOrders() {
       return this.purchaseOrders.filter(
         (po) => !po.complete || this.showCompleted
@@ -64,7 +70,7 @@ export default {
   <div>
     <v-data-table
       dense
-      :headers="headers"
+      :headers="filteredHeaders"
       :items="filteredPurchaseOrders"
       :search="search"
       item-key="_id"
