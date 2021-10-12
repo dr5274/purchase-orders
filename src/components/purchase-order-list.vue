@@ -36,6 +36,9 @@ export default {
         { text: "Actions", value: "_id", sortable: false },
       ],
       deleteConfirmation: false,
+      dialog: {
+        visible: false,
+      },
     };
   },
 
@@ -45,8 +48,9 @@ export default {
     },
 
     deletePurchaseOrder(id) {
-      this.deleteConfirmation = false;
-      this.$emit("deletePurchaseOrder", id);
+      if (confirm("Are you sure you want to delete this purchase order?")) {
+        this.$emit("deletePurchaseOrder", id);
+      }
     },
   },
 
@@ -103,31 +107,7 @@ export default {
       <template v-slot:[`item._id`]="{ item }">
         <v-icon small @click="editPurchaseOrder(item._id)">mdi-pencil</v-icon>
         <span>&nbsp;</span>
-        <v-dialog v-model="deleteConfirmation" width="400">
-          <template v-slot:activator="{ on }">
-            <v-icon small v-on="on">mdi-delete</v-icon>
-          </template>
-          <v-card>
-            <v-card-title class="grey lighten-2"> Delete </v-card-title>
-            <v-card-text>
-              Are you sure you want to delete this purchase order?
-            </v-card-text>
-            <v-divider></v-divider>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn color="secondary" text @click="deleteConfirmation = false">
-                No
-              </v-btn>
-              <v-btn
-                color="primary"
-                text
-                @click="deletePurchaseOrder(item._id)"
-              >
-                Ok
-              </v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
+        <v-icon small @click="deletePurchaseOrder(item._id)">mdi-delete</v-icon>
       </template>
     </v-data-table>
   </div>

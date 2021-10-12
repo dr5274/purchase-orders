@@ -79,14 +79,14 @@ export default {
           />
         </v-col>
 
-        <v-col cols="12" sm="3">
+        <v-col v-if="isReviewing" cols="12" sm="3">
           <DatePicker
             v-model="purchaseOrder.requestSent"
-            label="Request Sent"
+            label="Requisition Sent"
           />
         </v-col>
 
-        <v-col cols="12" sm="3">
+        <v-col v-if="isReviewing" cols="12" sm="3">
           <DatePicker
             v-model="purchaseOrder.dateReceived"
             label="Date Received"
@@ -199,12 +199,14 @@ export default {
       </v-row>
 
       <v-row>
-        <v-btn color="primary" class="mr-4" @click="onSaveChanges">
-          Save
-        </v-btn>
-        <v-btn v-if="isReviewing" class="mr-4" @click="onCancelChanges">
-          Cancel
-        </v-btn>
+        <v-col cols="12" sm="12">
+          <v-btn color="primary" class="mr-4" @click="onSaveChanges">
+            Save
+          </v-btn>
+          <v-btn v-if="isReviewing" class="mr-4" @click="onCancelChanges">
+            Cancel
+          </v-btn>
+        </v-col>
       </v-row>
     </v-container>
   </v-form>

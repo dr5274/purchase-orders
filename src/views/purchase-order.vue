@@ -20,8 +20,8 @@ export default {
 
   created() {
     _getPurchaseOrder(this.$route.params.id).then((res) => {
-        this.purchaseOrder = res;
-      });
+      this.purchaseOrder = res;
+    });
   },
 
   watch: {
@@ -44,13 +44,19 @@ export default {
 
   methods: {
     onSaveChanges(purchaseOrder) {
-      _savePurchaseOrder(purchaseOrder).then((res) => {
-        if (this.isReviewing) {
-          this.$router.push({ name: "purchase-orders" });
-        } else {
-          this.$router.go(); // reload new order
-        }
-      });
+      _savePurchaseOrder(purchaseOrder)
+        .then((res) => {
+          if (this.isReviewing) {
+            this.$router.push({ name: "purchase-orders" });
+          } else {
+            if (!alert("The purchase order has been saved.")) {
+              this.$router.go(); // reload new order
+            }
+          }
+        })
+        .catch((error) => {
+          alert(error);
+        });
     },
 
     onCancelChanges() {
@@ -61,11 +67,13 @@ export default {
 </script>
 
 <template>
-  <PurchaseOrderForm
-    :purchaseOrder="purchaseOrder"
-    :assignees="assignees"
-    :isReviewing="isReviewing"
-    @onSaveChanges="onSaveChanges"
-    @onCancelChanges="onCancelChanges"
-  />
+  <div>
+    <PurchaseOrderForm
+      :purchaseOrder="purchaseOrder"
+      :assignees="assignees"
+      :isReviewing="isReviewing"
+      @onSaveChanges="onSaveChanges"
+      @onCancelChanges="onCancelChanges"
+    />
+  </div>
 </template>

@@ -32,11 +32,13 @@ export default {
 
   methods: {
     deletePurchaseOrder(_id) {
-      _deletePurchaseOrder(_id).then((res) => {
-        _getPurchaseOrders().then((res) => {
-          this.purchaseOrders = res;
-        });
-      });
+      _deletePurchaseOrder(_id)
+        .then((res) => {
+          _getPurchaseOrders().then((res) => {
+            this.purchaseOrders = res;
+          });
+        })
+        .catch((error) => {});
     },
   },
 };
