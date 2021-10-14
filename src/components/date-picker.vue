@@ -12,6 +12,7 @@ export default {
       type: String,
       default: null,
     },
+    required: {},
   },
 
   created() {},
@@ -62,6 +63,7 @@ export default {
         readonly
         v-bind="attrs"
         v-on="on"
+        :rules="[(v) => !!v || 'Value is required']"
       />
     </template>
     <v-date-picker v-model="picker" no-title scrollable>

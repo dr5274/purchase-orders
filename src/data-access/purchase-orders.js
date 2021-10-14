@@ -13,13 +13,14 @@ export const _defaultPurchaseOrder = {
   quoteNumber: null,
   subTotal: null,
   dateNeeded: null,
-  billableSC: null,
+  billable: false,
+  scNumber: null,
   requestSent: null,
   dateReceived: null,
   poNumber: null,
   complete: false,
-  notes: null,
   assignedTo: [],
+  notes: null,
 };
 
 const _formatDate = (obj, field) => {

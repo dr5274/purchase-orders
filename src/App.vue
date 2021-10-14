@@ -2,9 +2,7 @@
   <v-app app>
     <v-app-bar absolute dense>
       <v-app-bar-title>{{ appTitle }}</v-app-bar-title>
-      <span class="text-caption font-italic">
-        &nbsp;{{ appVersion }}
-      </span>
+      <span class="text-caption font-italic"> &nbsp;{{ appVersion }} </span>
       <v-spacer></v-spacer>
       <v-toolbar-items>
         <v-btn text v-for="item in menuItems" :key="item.title" :to="item.path">
@@ -60,5 +58,14 @@ export default {
       color: #42b983;
     }
   }
+}
+
+.v-input--selection-controls {
+  padding-top: 0 !important;
+}
+
+.v-input--switch .v-label .v-input {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
 }
 </style>
