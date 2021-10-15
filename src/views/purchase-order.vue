@@ -6,8 +6,6 @@ import {
   _defaultPurchaseOrder,
 } from "../data-access/purchase-orders";
 
-const _valueIsRequired = "Value is required";
-
 export default {
   name: "PurchaseOrder",
 
@@ -18,30 +16,6 @@ export default {
       purchaseOrder: _defaultPurchaseOrder,
       assignees: ["Amanda", "Lelana"],
       isValid: true,
-      rules: {
-        required: [
-          (value) => {
-            if (Array.isArray(value)) {
-              return value.length > 0 || _valueIsRequired;
-            } else {
-              return !!value || _valueIsRequired;
-            }
-          },
-        ],
-        requiredIfReviewing: [
-          (value) => {
-            if (this.isReviewing) {
-              if (Array.isArray(value)) {
-                return value.length > 0 || _valueIsRequired;
-              } else {
-                return !!value || _valueIsRequired;
-              }
-            } else {
-              return false;
-            }
-          },
-        ],
-      },
     };
   },
 
@@ -75,6 +49,14 @@ export default {
   },
 
   methods: {
+    _required(value) {
+      let hasValue = Array.isArray(value) ? value.length > 0 : !!value;
+      return hasValue || "Value is required";
+    },
+    _requiredIfBillable(value) {
+      return !this.purchaseOrder.billable || !!value || "Value is required";
+    },
+
     onSaveChanges() {
       this.isValid = this.$refs.form.validate();
       if (this.isValid) {
@@ -127,7 +109,7 @@ export default {
             dense
             multiple
             chips
-            :rules="rules.requiredIfReviewing"
+            :rules="[_required]"
           />
         </v-col>
       </v-row>
@@ -137,7 +119,7 @@ export default {
           <v-text-field
             v-model="purchaseOrder.requestor"
             label="Requestor"
-            :rules="rules.required"
+            :rules="[_required]"
           />
         </v-col>
 
@@ -145,7 +127,7 @@ export default {
           <DatePicker
             v-model="purchaseOrder.requestDate"
             label="Request Date"
-            :rules="rules.required"
+            required="true"
           />
         </v-col>
 
@@ -153,7 +135,7 @@ export default {
           <DatePicker
             v-model="purchaseOrder.dateNeeded"
             label="Date Needed"
-            :rules="rules.required"
+            required="true"
           />
         </v-col>
       </v-row>
@@ -163,7 +145,7 @@ export default {
           <v-text-field
             v-model="purchaseOrder.vendor"
             label="Vendor"
-            :rules="rules.required"
+            :rules="[_required]"
           />
         </v-col>
 
@@ -171,7 +153,6 @@ export default {
           <DatePicker
             v-model="purchaseOrder.requestSent"
             label="Requisition Sent"
-            :rules="rules.requiredIfReviewing"
           />
         </v-col>
 
@@ -179,73 +160,44 @@ export default {
           <DatePicker
             v-model="purchaseOrder.dateReceived"
             label="Date Received"
-            :rules="rules.requiredIfReviewing"
           />
         </v-col>
       </v-row>
 
       <v-row>
-        <v-col cols="12" sm="4">
-          <v-switch v-if="isReviewing" v-model="purchaseOrder.supplied[0]">
-            <template v-slot:label>
-              <v-text-field
-                v-model="purchaseOrder.supplies[0]"
-                :rules="rules.required"
-              />
-            </template>
-          </v-switch>
+        <v-col cols="12" sm="4" class="switch-container">
+          <v-switch v-if="isReviewing" v-model="purchaseOrder.supplied[0]" />
           <v-text-field
-            v-else
             v-model="purchaseOrder.supplies[0]"
-            :rules="rules.required"
+            :rules="[_required]"
           />
         </v-col>
 
-        <v-col cols="12" sm="4">
-          <v-switch v-if="isReviewing" v-model="purchaseOrder.supplied[1]">
-            <template v-slot:label>
-              <v-text-field v-model="purchaseOrder.supplies[1]" />
-            </template>
-          </v-switch>
-          <v-text-field v-else v-model="purchaseOrder.supplies[1]" />
+        <v-col cols="12" sm="4" class="switch-container">
+          <v-switch v-if="isReviewing" v-model="purchaseOrder.supplied[1]" />
+          <v-text-field v-model="purchaseOrder.supplies[1]" />
         </v-col>
 
-        <v-col cols="12" sm="4">
-          <v-switch v-if="isReviewing" v-model="purchaseOrder.supplied[2]">
-            <template v-slot:label>
-              <v-text-field v-model="purchaseOrder.supplies[2]" />
-            </template>
-          </v-switch>
-          <v-text-field v-else v-model="purchaseOrder.supplies[2]" />
+        <v-col cols="12" sm="4" class="switch-container">
+          <v-switch v-if="isReviewing" v-model="purchaseOrder.supplied[2]" />
+          <v-text-field v-model="purchaseOrder.supplies[2]" />
         </v-col>
       </v-row>
 
       <v-row>
-        <v-col cols="12" sm="4">
-          <v-switch v-if="isReviewing" v-model="purchaseOrder.supplied[3]">
-            <template v-slot:label>
-              <v-text-field v-model="purchaseOrder.supplies[3]" />
-            </template>
-          </v-switch>
-          <v-text-field v-else v-model="purchaseOrder.supplies[3]" />
+        <v-col cols="12" sm="4" class="switch-container">
+          <v-switch v-if="isReviewing" v-model="purchaseOrder.supplied[3]" />
+          <v-text-field v-model="purchaseOrder.supplies[3]" />
         </v-col>
 
-        <v-col cols="12" sm="4">
-          <v-switch v-if="isReviewing" v-model="purchaseOrder.supplied[4]">
-            <template v-slot:label>
-              <v-text-field v-model="purchaseOrder.supplies[4]" />
-            </template>
-          </v-switch>
-          <v-text-field v-else v-model="purchaseOrder.supplies[4]" />
+        <v-col cols="12" sm="4" class="switch-container">
+          <v-switch v-if="isReviewing" v-model="purchaseOrder.supplied[4]" />
+          <v-text-field v-model="purchaseOrder.supplies[4]" />
         </v-col>
 
-        <v-col cols="12" sm="4">
-          <v-switch v-if="isReviewing" v-model="purchaseOrder.supplied[5]">
-            <template v-slot:label>
-              <v-text-field v-model="purchaseOrder.supplies[5]" />
-            </template>
-          </v-switch>
-          <v-text-field v-else v-model="purchaseOrder.supplies[5]" />
+        <v-col cols="12" sm="4" class="switch-container">
+          <v-switch v-if="isReviewing" v-model="purchaseOrder.supplied[5]" />
+          <v-text-field v-model="purchaseOrder.supplies[5]" />
         </v-col>
       </v-row>
 
@@ -258,28 +210,20 @@ export default {
         </v-col>
 
         <v-col v-if="isReviewing" cols="12" sm="3">
-          <v-text-field
-            v-model="purchaseOrder.poNumber"
-            label="PO Number"
-            :rules="rules.requiredIfReviewing"
-          />
+          <v-text-field v-model="purchaseOrder.poNumber" label="PO Number" />
         </v-col>
 
         <v-col cols="12" sm="3">
           <v-text-field v-model="purchaseOrder.subTotal" label="Sub-Total" />
         </v-col>
 
-        <v-col cols="12" sm="3">
-          <v-switch v-if="isReviewing" v-model="purchaseOrder.billable">
-            <template v-slot:label>
-              <v-text-field
-                v-model="purchaseOrder.scNumber"
-                label="Billable SC Number"
-                :disabled="!purchaseOrder.billable"
-              />
-            </template>
-          </v-switch>
-          <v-switch v-else v-model="purchaseOrder.billable" label="Billable" />
+        <v-col cols="12" sm="3" class="switch-container">
+          <v-switch v-model="purchaseOrder.billable" />
+          <v-text-field
+            v-model="purchaseOrder.scNumber"
+            label="Billable SC Number"
+            :rules="[_requiredIfBillable]"
+          />
         </v-col>
       </v-row>
 

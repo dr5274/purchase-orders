@@ -31,6 +31,10 @@ export default {
   },
 
   methods: {
+    _required(value) {
+      return !this.required || !!value || "Value is required";
+    },
+
     clearPicker() {
       this.picker = null;
     },
@@ -63,7 +67,7 @@ export default {
         readonly
         v-bind="attrs"
         v-on="on"
-        :rules="[(v) => !!v || 'Value is required']"
+        :rules="[_required]"
       />
     </template>
     <v-date-picker v-model="picker" no-title scrollable>

@@ -60,12 +60,13 @@ export default {
   }
 }
 
-.v-input--selection-controls {
-  padding-top: 0 !important;
-}
-
-.v-input--switch .v-label .v-input {
-  margin-top: 0 !important;
-  padding-top: 0 !important;
+.switch-container {
+  .v-input--switch {
+    display: inline-block;
+  }
+  .v-text-field {
+    display: inline-block;
+    width: 80%;
+  }
 }
 </style>
