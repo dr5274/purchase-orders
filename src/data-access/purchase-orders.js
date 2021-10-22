@@ -33,6 +33,8 @@ const _formatDate = (obj, field) => {
       day: "2-digit",
       year: "numeric",
     }).format(date);
+  } else {
+    obj[field + "Formatted"] = null;
   }
 };
 
@@ -43,6 +45,8 @@ const _formatCurrency = (obj, field) => {
       style: "currency",
       currency: "USD",
     }).format(value);
+  } else {
+    obj[field + "Formatted"] = null;
   }
 };
 
@@ -52,12 +56,8 @@ const _transform = (purchaseOrder) => {
   _formatDate(purchaseOrder, "requestSent");
   _formatDate(purchaseOrder, "dateReceived");
   _formatCurrency(purchaseOrder, "subTotal");
-  purchaseOrder.assignedToFormatted = purchaseOrder.assignedTo
-          .filter((x) => x)
-          .join(", ");
-  purchaseOrder.suppliesFormatted = purchaseOrder.supplies
-          .filter((x) => x)
-          .join(", ");
+  purchaseOrder.assignedToFormatted = purchaseOrder.assignedTo.filter((x) => x).join(", ");
+  purchaseOrder.suppliesFormatted = purchaseOrder.supplies.filter((x) => x).join(", ");
   return purchaseOrder;
 };
 

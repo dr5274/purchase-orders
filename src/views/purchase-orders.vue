@@ -33,7 +33,7 @@ export default {
         { text: "SubTotal", value: "subTotalFormatted", showIf: "lgAndUp" },
         { text: "Billable SC", value: "billableSC", showIf: "lgAndUp" },
         { text: "Notes", value: "notes", showIf: "lgAndUp" },
-        { text: "Actions", value: "_id", sortable: false },
+        { text: "Actions", value: "_id", sortable: false, width: "120px" },
       ],
     };
   },
@@ -77,6 +77,65 @@ export default {
           .catch((error) => {});
       }
     },
+
+    downloadCSV() {
+      let download = window.prompt("Save downloaded file as:");
+      if (download) {
+        let fields = [
+          { property: "complete", column: "Complete" },
+          { property: "assignedToFormatted", column: "Assigned To" },
+          { property: "requestor", column: "Requestor" },
+          { property: "requestDateFormatted", column: "Date Requested" },
+          { property: "dateNeededFormatted", column: "Date Needed" },
+          { property: "vendor", column: "Vendor" },
+          { property: "requestSentFormatted", column: "Requisition Sent" },
+          { property: "dateReceivedFormatted", column: "Date Received" },
+          { property: "supplies.0", column: "Supplies 1" },
+          { property: "supplied.0", column: "Supplied 1" },
+          { property: "supplies.1", column: "Supplies 2" },
+          { property: "supplied.1", column: "Supplied 2" },
+          { property: "supplies.2", column: "Supplies 3" },
+          { property: "supplied.2", column: "Supplied 3" },
+          { property: "supplies.3", column: "Supplies 4" },
+          { property: "supplied.3", column: "Supplied 4" },
+          { property: "supplies.4", column: "Supplies 5" },
+          { property: "supplied.4", column: "Supplied 5" },
+          { property: "supplies.5", column: "Supplies 6" },
+          { property: "supplied.5", column: "Supplied 6" },
+          { property: "dateReceivedFormatted", column: "Date Received" },
+          { property: "quoteNumber", column: "Quote Number" },
+          { property: "poNumber", column: "PO Number" },
+          { property: "subTotal", column: "SubTotal" },
+          { property: "billable", column: "Billable" },
+          { property: "scNumber", column: "SC Number" },
+          { property: "notes", column: "Notes" },
+        ];
+
+        let csv =
+          fields.map((field) => '"' + field.column + '"').join(",") + "\n";
+        this.purchaseOrders.map((po) => {
+          csv +=
+            fields
+              .map((field) => {
+                if (field.property.includes(".")) {
+                  let split = field.property.split(".");
+                  let property = split[0];
+                  let index = split[1];
+                  return '"' + po[property][index] + '"';
+                } else {
+                  return '"' + po[field.property] + '"';
+                }
+              })
+              .join(",") + "\n";
+        });
+
+        const anchor = document.createElement("a");
+        anchor.href = "data:text/csv;charset=utf-8," + encodeURIComponent(csv);
+        anchor.target = "_blank";
+        anchor.download = download;
+        anchor.click();
+      }
+    },
   },
 };
 </script>
@@ -108,6 +167,12 @@ export default {
           />
         </v-col>
       </v-row>
+    </template>
+
+    <template v-slot:[`header._id`]="{}">
+      Actions
+      <span>&nbsp;</span>
+      <v-icon dense @click="downloadCSV()">mdi-download</v-icon>
     </template>
 
     <template v-slot:[`item.complete`]="{ item }">
