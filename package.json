@@ -1,6 +1,6 @@
 {
   "name": "purchase-orders",
-  "version": "0.10.15",
+  "version": "0.10.22",
   "private": true,
   "scripts": {
     "build": "vue-cli-service build",
