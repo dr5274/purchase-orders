@@ -1,7 +1,5 @@
 import axios from "axios";
-
-const _apiUrl = "/api/purchase-orders";
-// const _apiUrl = "http://localhost:7071/api/purchase-orders";
+import { _apiBase } from "./_base";
 
 export const _defaultPurchaseOrder = {
   _id: null,
@@ -26,13 +24,21 @@ export const _defaultPurchaseOrder = {
 const _formatDate = (obj, field) => {
   let value = obj[field];
   if (value) {
-    let date = new Date(Date.parse(value) + new Date().getTimezoneOffset() * 60000);
-    obj[field] = date.toISOString().substr(0, 10);
-    obj[field + "Formatted"] = new Intl.DateTimeFormat("en-US", {
-      month: "2-digit",
-      day: "2-digit",
-      year: "numeric",
-    }).format(date);
+    switch (value) {
+      case "ASAP":
+      case "No Rush":
+        obj[field + "Formatted"] = value;
+        break;
+      default:
+        value = new Date(Date.parse(value) + new Date().getTimezoneOffset() * 60000);
+        obj[field] = value.toISOString().substr(0, 10);
+        obj[field + "Formatted"] = new Intl.DateTimeFormat("en-US", {
+          month: "2-digit",
+          day: "2-digit",
+          year: "numeric",
+        }).format(value);
+        break;
+    }
   } else {
     obj[field + "Formatted"] = null;
   }
@@ -62,7 +68,7 @@ const _transform = (purchaseOrder) => {
 };
 
 export const _getPurchaseOrders = () => {
-  return axios.get(_apiUrl).then((res) => {
+  return axios.get(_apiBase + "purchase-orders").then((res) => {
     return res.data.purchaseOrders.map((purchaseOrder) => {
       return _transform(purchaseOrder);
     });
@@ -71,7 +77,7 @@ export const _getPurchaseOrders = () => {
 
 export const _getPurchaseOrder = (_id) => {
   if (_id) {
-    return axios.get(_apiUrl + `/${_id}`).then((res) => {
+    return axios.get(_apiBase + `purchase-orders/${_id}`).then((res) => {
       return _transform(res.data.purchaseOrder);
     });
   } else {
@@ -81,12 +87,12 @@ export const _getPurchaseOrder = (_id) => {
 
 export const _savePurchaseOrder = (purchaseOrder) => {
   if (purchaseOrder._id === null) {
-    return axios.post(_apiUrl + ``, purchaseOrder);
+    return axios.post(_apiBase + "purchase-orders", purchaseOrder);
   } else {
-    return axios.put(_apiUrl + `/${purchaseOrder._id}`, purchaseOrder);
+    return axios.put(_apiBase + `purchase-orders/${purchaseOrder._id}`, purchaseOrder);
   }
 };
 
 export const _deletePurchaseOrder = (_id) => {
-  return axios.delete(_apiUrl + `/${_id}`);
+  return axios.delete(_apiBase + `purchase-orders/${_id}`);
 };

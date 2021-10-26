@@ -1,10 +1,11 @@
 <script>
 import DatePicker from "../components/date-picker.vue";
+import { _getAssignees } from "../api/assignees";
 import {
   _getPurchaseOrder,
   _savePurchaseOrder,
   _defaultPurchaseOrder,
-} from "../data-access/purchase-orders";
+} from "../api/purchase-orders";
 
 export default {
   name: "PurchaseOrder",
@@ -14,12 +15,15 @@ export default {
       routePath: "/purchase-order",
       title: "Purchase Order",
       purchaseOrder: _defaultPurchaseOrder,
-      assignees: ["Amanda", "Lelana"],
+      assignees: [],
       isValid: true,
     };
   },
 
   created() {
+    _getAssignees().then((res) => {
+      this.assignees = res;
+    });
     _getPurchaseOrder(this.$route.params.id).then((res) => {
       this.purchaseOrder = res;
     });
@@ -53,6 +57,7 @@ export default {
       let hasValue = Array.isArray(value) ? value.length > 0 : !!value;
       return hasValue || "Value is required";
     },
+
     _requiredIfBillable(value) {
       return !this.purchaseOrder.billable || !!value || "Value is required";
     },
@@ -127,6 +132,8 @@ export default {
           <DatePicker
             v-model="purchaseOrder.requestDate"
             label="Request Date"
+            default="now"
+            today="true"
             required="true"
           />
         </v-col>
@@ -135,6 +142,9 @@ export default {
           <DatePicker
             v-model="purchaseOrder.dateNeeded"
             label="Date Needed"
+            today="true"
+            asap="true"
+            no-rush="true"
             required="true"
           />
         </v-col>
@@ -153,6 +163,7 @@ export default {
           <DatePicker
             v-model="purchaseOrder.requestSent"
             label="Requisition Sent"
+            today="true"
           />
         </v-col>
 
@@ -160,6 +171,7 @@ export default {
           <DatePicker
             v-model="purchaseOrder.dateReceived"
             label="Date Received"
+            today="true"
           />
         </v-col>
       </v-row>
@@ -222,6 +234,7 @@ export default {
           <v-text-field
             v-model="purchaseOrder.scNumber"
             label="Billable SC Number"
+            :disabled="!purchaseOrder.billable"
             :rules="[_requiredIfBillable]"
           />
         </v-col>

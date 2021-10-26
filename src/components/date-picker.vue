@@ -12,10 +12,22 @@ export default {
       type: String,
       default: null,
     },
+    default: {},
+    today: {},
+    asap: {},
+    noRush: {},
     required: {},
   },
 
-  created() {},
+  created() {
+    if (this.default === "now") {
+      this.picker = new Date(
+        Date.now() - new Date().getTimezoneOffset() * 60000
+      )
+        .toISOString()
+        .substr(0, 10);
+    }
+  },
 
   computed: {
     picker: {
@@ -32,19 +44,26 @@ export default {
 
   methods: {
     _required(value) {
-      return !this.required || !!value || "Value is required";
+      return !this.required || value === null || !!value || "Value is required";
     },
 
-    clearPicker() {
-      this.picker = null;
-    },
-
-    pickToday() {
-      this.picker = new Date(
-        Date.now() - new Date().getTimezoneOffset() * 60000
-      )
-        .toISOString()
-        .substr(0, 10);
+    pick(date) {
+      let value;
+      switch (date) {
+        case "today":
+          this.picker = new Date(
+            Date.now() - new Date().getTimezoneOffset() * 60000
+          )
+            .toISOString()
+            .substr(0, 10);
+          break;
+        case "asap":
+          this.picker = "ASAP";
+          break;
+        case "noRush":
+          this.picker = "No Rush";
+          break;
+      }
     },
   },
 };
@@ -71,9 +90,17 @@ export default {
       />
     </template>
     <v-date-picker v-model="picker" no-title scrollable>
-      <v-btn text color="primary" @click="clearPicker"> Clear </v-btn>
-      <v-spacer></v-spacer>
-      <v-btn text color="primary" @click="pickToday"> Today </v-btn>
+      <v-btn v-if="today" text color="primary" @click="pick('today')">
+        Today
+      </v-btn>
+      <v-spacer v-if="today"></v-spacer>
+      <v-btn v-if="asap" text color="primary" @click="pick('asap')">
+        ASAP
+      </v-btn>
+      <v-spacer v-if="asap"></v-spacer>
+      <v-btn v-if="noRush" text color="primary" @click="pick('noRush')">
+        No Rush
+      </v-btn>
     </v-date-picker>
   </v-menu>
 </template>

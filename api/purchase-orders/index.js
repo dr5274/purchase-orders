@@ -1,18 +1,3 @@
-// local.settings.json
-// {
-//   "IsEncrypted": false,
-//   "Values": {
-//     "AzureWebJobsStorage": "",
-//     "FUNCTIONS_WORKER_RUNTIME": "node",
-//     "CONNECTION_STRING": "...."
-//   },
-//   "Host": {
-//     "LocalHttpPort": 7071,
-//     "CORS": "*",
-//     "CORSCredentials": false
-//   }
-// }
-
 const mongoose = require("mongoose");
 
 mongoose.connect(
@@ -24,17 +9,17 @@ mongoose.connect(
 );
 
 const schema = new mongoose.Schema({
-  requestDate: Date,
+  requestDate: String,
   requestor: String,
   vendor: String,
   supplies: [String],
   supplied: [Boolean],
   quoteNumber: String,
   subTotal: Number,
-  dateNeeded: Date,
+  dateNeeded: String,
   billableSC: String,
-  requestSent: Date,
-  dateReceived: Date,
+  requestSent: String,
+  dateReceived: String,
   poNumber: String,
   complete: Boolean,
   notes: String,

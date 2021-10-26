@@ -2,7 +2,7 @@
 import {
   _getPurchaseOrders,
   _deletePurchaseOrder,
-} from "../data-access/purchase-orders";
+} from "../api/purchase-orders";
 
 export default {
   name: "PurchaseOrders",
