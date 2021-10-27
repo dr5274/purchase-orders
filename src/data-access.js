@@ -1,5 +1,7 @@
 import axios from "axios";
-import { _apiBase } from "./_base";
+
+export const _apiBase = "/api/";
+// export const _apiBase = "http://localhost:7071/api/";
 
 export const _defaultPurchaseOrder = {
   _id: null,
@@ -95,4 +97,10 @@ export const _savePurchaseOrder = (purchaseOrder) => {
 
 export const _deletePurchaseOrder = (_id) => {
   return axios.delete(_apiBase + `purchase-orders/${_id}`);
+};
+
+export const _getAssignees = () => {
+  return axios.get(_apiBase + "assignees").then((res) => {
+    return res.data.assignees;
+  });
 };

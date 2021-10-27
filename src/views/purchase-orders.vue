@@ -1,8 +1,35 @@
 <script>
-import {
-  _getPurchaseOrders,
-  _deletePurchaseOrder,
-} from "../api/purchase-orders";
+import { _getPurchaseOrders, _deletePurchaseOrder } from "../data-access";
+
+const _exportFields = [
+  { property: "complete", column: "Complete" },
+  { property: "assignedToFormatted", column: "Assigned To" },
+  { property: "requestor", column: "Requestor" },
+  { property: "requestDateFormatted", column: "Date Requested" },
+  { property: "dateNeededFormatted", column: "Date Needed" },
+  { property: "vendor", column: "Vendor" },
+  { property: "requestSentFormatted", column: "Requisition Sent" },
+  { property: "dateReceivedFormatted", column: "Date Received" },
+  { property: "supplies.0", column: "Supplies 1" },
+  { property: "supplied.0", column: "Supplied 1" },
+  { property: "supplies.1", column: "Supplies 2" },
+  { property: "supplied.1", column: "Supplied 2" },
+  { property: "supplies.2", column: "Supplies 3" },
+  { property: "supplied.2", column: "Supplied 3" },
+  { property: "supplies.3", column: "Supplies 4" },
+  { property: "supplied.3", column: "Supplied 4" },
+  { property: "supplies.4", column: "Supplies 5" },
+  { property: "supplied.4", column: "Supplied 5" },
+  { property: "supplies.5", column: "Supplies 6" },
+  { property: "supplied.5", column: "Supplied 6" },
+  { property: "dateReceivedFormatted", column: "Date Received" },
+  { property: "quoteNumber", column: "Quote Number" },
+  { property: "poNumber", column: "PO Number" },
+  { property: "subTotal", column: "SubTotal" },
+  { property: "billable", column: "Billable" },
+  { property: "scNumber", column: "SC Number" },
+  { property: "notes", column: "Notes" },
+];
 
 export default {
   name: "PurchaseOrders",
@@ -30,39 +57,21 @@ export default {
         { text: "Vendor", value: "vendor" },
         { text: "Supplies", value: "suppliesFormatted" },
         { text: "Quote", value: "quoteNumber", showIf: "lgAndUp" },
-        { text: "SubTotal", value: "subTotalFormatted", showIf: "lgAndUp" },
+        {
+          text: "SubTotal",
+          value: "subTotalFormatted",
+          align: "right",
+          showIf: "lgAndUp",
+        },
         { text: "Billable SC", value: "billableSC", showIf: "lgAndUp" },
         { text: "Notes", value: "notes", showIf: "lgAndUp" },
-        { text: "Actions", value: "_id", sortable: false, width: "120px" },
-      ],
-      exportFields: [
-        { property: "complete", column: "Complete" },
-        { property: "assignedToFormatted", column: "Assigned To" },
-        { property: "requestor", column: "Requestor" },
-        { property: "requestDateFormatted", column: "Date Requested" },
-        { property: "dateNeededFormatted", column: "Date Needed" },
-        { property: "vendor", column: "Vendor" },
-        { property: "requestSentFormatted", column: "Requisition Sent" },
-        { property: "dateReceivedFormatted", column: "Date Received" },
-        { property: "supplies.0", column: "Supplies 1" },
-        { property: "supplied.0", column: "Supplied 1" },
-        { property: "supplies.1", column: "Supplies 2" },
-        { property: "supplied.1", column: "Supplied 2" },
-        { property: "supplies.2", column: "Supplies 3" },
-        { property: "supplied.2", column: "Supplied 3" },
-        { property: "supplies.3", column: "Supplies 4" },
-        { property: "supplied.3", column: "Supplied 4" },
-        { property: "supplies.4", column: "Supplies 5" },
-        { property: "supplied.4", column: "Supplied 5" },
-        { property: "supplies.5", column: "Supplies 6" },
-        { property: "supplied.5", column: "Supplied 6" },
-        { property: "dateReceivedFormatted", column: "Date Received" },
-        { property: "quoteNumber", column: "Quote Number" },
-        { property: "poNumber", column: "PO Number" },
-        { property: "subTotal", column: "SubTotal" },
-        { property: "billable", column: "Billable" },
-        { property: "scNumber", column: "SC Number" },
-        { property: "notes", column: "Notes" },
+        {
+          text: "Actions",
+          value: "_id",
+          align: "center",
+          sortable: false,
+          width: "120px",
+        },
       ],
     };
   },
@@ -111,11 +120,11 @@ export default {
       let download = window.prompt("Save downloaded file as:");
       if (download) {
         let csv =
-          this.exportFields.map((field) => '"' + field.column + '"').join(",") +
+          _exportFields.map((field) => '"' + field.column + '"').join(",") +
           "\n";
         this.purchaseOrders.map((po) => {
           csv +=
-            this.exportFields
+            _exportFields
               .map((field) => {
                 if (field.property.includes(".")) {
                   let split = field.property.split(".");
@@ -147,8 +156,6 @@ export default {
     :items="filteredPurchaseOrders"
     :search="search"
     item-key="_id"
-    :sort-by="['dateNeededFormatted']"
-    :sort-desc="[false]"
     :items-per-page="10"
     :loading="isLoading"
     loading-text="Loading..."
@@ -172,7 +179,14 @@ export default {
     <template v-slot:[`header._id`]="{}">
       Actions
       <span>&nbsp;</span>
-      <v-icon dense @click="downloadCSV()">mdi-download</v-icon>
+      <v-tooltip top>
+        <template v-slot:activator="{ on, attrs }">
+          <v-icon dense v-bind="attrs" v-on="on" @click="downloadCSV()">
+            mdi-download
+          </v-icon>
+        </template>
+        <span>Download CSV</span>
+      </v-tooltip>
     </template>
 
     <template v-slot:[`item.complete`]="{ item }">
@@ -180,9 +194,33 @@ export default {
     </template>
 
     <template v-slot:[`item._id`]="{ item }">
-      <v-icon small @click="editPurchaseOrder(item._id)">mdi-pencil</v-icon>
+      <v-tooltip top>
+        <template v-slot:activator="{ on, attrs }">
+          <v-icon
+            small
+            v-bind="attrs"
+            v-on="on"
+            @click="editPurchaseOrder(item._id)"
+          >
+            mdi-pencil
+          </v-icon>
+        </template>
+        <span>Edit Purchase Order</span>
+      </v-tooltip>
       <span>&nbsp;</span>
-      <v-icon small @click="deletePurchaseOrder(item._id)">mdi-delete</v-icon>
+      <v-tooltip top>
+        <template v-slot:activator="{ on, attrs }">
+          <v-icon
+            small
+            v-bind="attrs"
+            v-on="on"
+            @click="deletePurchaseOrder(item._id)"
+          >
+            mdi-delete
+          </v-icon>
+        </template>
+        <span>Delete Purchase Order</span>
+      </v-tooltip>
     </template>
   </v-data-table>
 </template>

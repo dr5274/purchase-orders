@@ -1,11 +1,11 @@
 <script>
 import DatePicker from "../components/date-picker.vue";
-import { _getAssignees } from "../api/assignees";
 import {
+  _getAssignees,
   _getPurchaseOrder,
   _savePurchaseOrder,
   _defaultPurchaseOrder,
-} from "../api/purchase-orders";
+} from "../data-access";
 
 export default {
   name: "PurchaseOrder",
@@ -17,6 +17,7 @@ export default {
       purchaseOrder: _defaultPurchaseOrder,
       assignees: [],
       isValid: true,
+      hasChanged: false,
     };
   },
 
@@ -26,7 +27,20 @@ export default {
     });
     _getPurchaseOrder(this.$route.params.id).then((res) => {
       this.purchaseOrder = res;
+      this.hasChanged = false;
     });
+  },
+
+  beforeRouteEnter(to, from, next) {
+    next((vm) => {
+      vm.$refs.form.reset();
+    });
+  },
+  beforeRouteLeave(to, from, next) {
+    next(
+      !this.hasChanged ||
+        confirm("Are you sure you want to leave without saving changes?")
+    );
   },
 
   watch: {
@@ -35,6 +49,13 @@ export default {
       _getPurchaseOrder(id).then((res) => {
         this.purchaseOrder = res;
       });
+    },
+
+    purchaseOrder: {
+      handler: function (v) {
+        this.hasChanged = true;
+      },
+      deep: true,
     },
   },
 
@@ -100,9 +121,9 @@ export default {
       </v-chip>
     </div>
 
-    <v-container>
+    <v-container fluid>
       <v-row v-if="isReviewing">
-        <v-col cols="12" sm="3">
+        <v-col cols="12" sm="2">
           <v-switch v-model="purchaseOrder.complete" label="Complete" />
         </v-col>
 
